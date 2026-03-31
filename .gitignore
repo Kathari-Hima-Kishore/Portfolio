@@ -1,50 +1,17 @@
-/gsd:new-project
+# dependencies
+node_modules
 
-/gsd:plan-phase 1
+# next.js
+.next/
+out/
 
-/gsd:verify-work
+# misc
+*.pem
+.DS_Store
 
+# debug
+npm-debug.log*
 
-
-
-GSD works by breaking down a project into logical steps: Strategy -> Planning -> Execution -> Verification.
-
-Here is how you would use it from start to finish:
-
-Step 1: Initialize the Project
-You'd start off by telling me to initialize the project using the following command:
-
-/gsd:new-project
-
-What happens: I will ask you a series of questions to understand your vision for the weather app. For example: Do you want to use React or Vanilla JS? What weather API (like OpenWeatherMap) will we use? Do you want a sleek dark mode? Once we agree, I'll generate the core documentation inside a .planning/ directory, including a PROJECT.md, REQUIREMENTS.md, and a phased ROADMAP.md.
-
-Step 2: Plan the First Phase
-Once the roadmap is structured, you move on to planning out the very first phase (which could be the project setup or building the UI).
-
-/gsd:plan-phase 1
-
-What happens: I will read the roadmap for Phase 1 and create a detailed, executable set of implementation steps. This prevents me (the AI) from getting confused during coding and gives you a chance to review the plan before any code is generated.
-
-Step 3: Execute the Code
-When you're happy with the plan for Phase 1, you command me to start writing the code:
-
-/gsd:execute-phase 1
-
-What happens: This is where the magic happens. I will read the plan we just made and begin generating the actual code for the weather app. GSD uses what's called "wave-based execution", meaning I will step through implementing HTML, CSS, JavaScript, and API integrations systematically.
-
-Step 4: Verify the Work
-After Phase 1 is built, we check if it actually works!
-
-/gsd:verify-work
-
-What happens: I'll guide you through a conversational "User Acceptance Test" (UAT). You'll open the app in your browser, and I'll ask you things like, "When you type 'London' and hit search, does the temperature show up correctly?" If you spot a bug, I'll automatically diagnose it, plan a fix, and we run /gsd:execute-phase again to patch it.
-
-Step 5: Rinse and Repeat
-Once Phase 1 is verified, you tackle the rest of the weather app:
-
-/gsd:plan-phase 2 /gsd:execute-phase 2 ...and so on until the app is finished!
-
-You can also use handy utility commands anytime, like /gsd:progress to see a neat table of what we have left, or /gsd:health to check project metrics.
-
-Whenever you are ready to actually start, just fire off /gsd:new-project I want to build a weather app... and we'll hit the ground running!
-
+# env
+.env*.local
+.env
