@@ -14,6 +14,14 @@
   --accent-light: #a29bfe;
   --accent-glow: rgba(108, 92, 231, 0.35);
   --radius: 16px;
+  
+  /* Neo-Brutalism Additions */
+  --brutal-yellow: #FFE53B;
+  --brutal-pink: #FF006E;
+  --brutal-cyan: #00F5FF;
+  --brutal-lime: #39FF14;
+  --brutal-border: 3px;
+  --brutal-shadow: 4px 4px 0px;
 }
 
 /* Base Styles */
@@ -71,7 +79,90 @@ body::after {
   will-change: opacity;
 }
 
-/* Text edge outline effect */
+/* Neo-Brutalist Utility Classes */
+.brutal-border {
+  border: var(--brutal-border) solid var(--text);
+}
+
+.brutal-border-accent {
+  border: var(--brutal-border) solid var(--accent);
+}
+
+.brutal-shadow {
+  box-shadow: var(--brutal-shadow) var(--text);
+}
+
+.brutal-shadow-accent {
+  box-shadow: var(--brutal-shadow) var(--accent);
+}
+
+.brutal-shadow-yellow {
+  box-shadow: var(--brutal-shadow) var(--brutal-yellow);
+}
+
+.brutal-shadow-pink {
+  box-shadow: var(--brutal-shadow) var(--brutal-pink);
+}
+
+.brutal-shadow-cyan {
+  box-shadow: var(--brutal-shadow) var(--brutal-cyan);
+}
+
+.brutal-card {
+  background: var(--surface);
+  border: var(--brutal-border) solid var(--text);
+  box-shadow: var(--brutal-shadow) var(--text);
+  transition: all 0.15s ease;
+}
+
+.brutal-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--text);
+}
+
+.brutal-card-accent {
+  background: var(--surface);
+  border: var(--brutal-border) solid var(--accent);
+  box-shadow: var(--brutal-shadow) var(--accent);
+}
+
+.brutal-btn {
+  background: var(--accent);
+  border: var(--brutal-border) solid var(--text);
+  box-shadow: var(--brutal-shadow) var(--text);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.15s ease;
+}
+
+.brutal-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--text);
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--text);
+}
+
+.brutal-text-yellow { color: var(--brutal-yellow); }
+.brutal-text-pink { color: var(--brutal-pink); }
+.brutal-text-cyan { color: var(--brutal-cyan); }
+.brutal-text-lime { color: var(--brutal-lime); }
+
+.brutal-bg-yellow { background-color: var(--brutal-yellow); }
+.brutal-bg-pink { background-color: var(--brutal-pink); }
+.brutal-bg-cyan { background-color: var(--brutal-cyan); }
+.brutal-bg-lime { background-color: var(--brutal-lime); }
+
+/* Grid pattern for brutalist aesthetic */
+.brutal-grid {
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
 .text-edge-outline {
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
   text-stroke: 1px rgba(255, 255, 255, 0.1);

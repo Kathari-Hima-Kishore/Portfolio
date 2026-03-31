@@ -14,9 +14,26 @@ module.exports = {
         'text-muted': '#77777a',
         'accent': '#6c5ce7',
         'accent-light': '#a29bfe',
+        // Neo-Brutalism colors
+        'brutal-yellow': '#FFE53B',
+        'brutal-pink': '#FF006E',
+        'brutal-cyan': '#00F5FF',
+        'brutal-lime': '#39FF14',
       },
       fontFamily: {
         'display': ['Inter', 'system-ui', 'sans-serif'],
+      },
+      boxShadow: {
+        'brutal': '4px 4px 0px #f0f0f2',
+        'brutal-accent': '4px 4px 0px #6c5ce7',
+        'brutal-yellow': '4px 4px 0px #FFE53B',
+        'brutal-pink': '4px 4px 0px #FF006E',
+        'brutal-cyan': '4px 4px 0px #00F5FF',
+        'brutal-lime': '4px 4px 0px #39FF14',
+        'brutal-lg': '6px 6px 0px #f0f0f2',
+      },
+      borderWidth: {
+        'brutal': '3px',
       },
       animation: {
         'spin': 'spin 0.8s linear infinite',
