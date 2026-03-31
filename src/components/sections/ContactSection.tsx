@@ -4,14 +4,18 @@ import { motion } from 'framer-motion'
 import { memo } from 'react'
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin } from 'react-icons/fa'
 
-export const ContactSection = memo(function ContactSection() {
+interface ContactSectionProps {
+  isMobile?: boolean
+}
+
+export const ContactSection = memo(function ContactSection({ isMobile = false }: ContactSectionProps) {
     const sectionVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" as const } }
+        hidden: { opacity: 0, y: isMobile ? 30 : 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: isMobile ? 0.5 : 0.8, ease: "easeOut" as const } }
     }
 
     return (
-        <section id="phase-7" className="min-h-screen flex items-center justify-center p-8">
+        <section id="phase-7" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-4' : 'p-8'}`}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -19,12 +23,12 @@ export const ContactSection = memo(function ContactSection() {
                 variants={sectionVariants}
                 className="max-w-4xl w-full text-center pointer-events-auto"
             >
-                <h2 className="text-5xl font-black text-white mb-6">Let&apos;s Connect</h2>
-                <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">
+                <h2 className={`font-black text-white mb-6 ${isMobile ? 'text-3xl' : 'text-5xl'}`}>Let&apos;s Connect</h2>
+                <p className={`text-white/60 mb-12 max-w-2xl mx-auto ${isMobile ? 'text-lg' : 'text-xl'}`}>
                     I&apos;m currently looking for new opportunities as a Full Stack Cloud Engineer. Whether you have a question or just want to say hi, I&apos;ll be delighted to get back to you!
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div className={`grid gap-6 mb-12 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-3'}`}>
                     <a href="mailto:himakishorekathari@gmail.com" className="p-6 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 hover:-translate-y-1 transition-all group">
                         <FaEnvelope className="text-3xl text-accent mb-4 mx-auto group-hover:scale-110 transition-transform" />
                         <h3 className="text-white font-bold mb-1">Email</h3>

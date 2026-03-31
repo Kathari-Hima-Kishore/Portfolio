@@ -12,8 +12,8 @@ import { useEffect, useState, useRef } from 'react'
  *
  * New approach:
  * - 1440px+   → No wrapper at all (passthrough)
- * - 768–1439  → CSS zoom (browser-native, integer-aware, no compositing)
- * - <768      → Mobile warning already handles this
+ * - 1024-1439 → CSS zoom (browser-native, integer-aware, no compositing)
+ * - <1024     → No scaling for mobile/tablet
  *
  * CSS zoom is read-only composited at paint time — zero extra GPU layer.
  */
@@ -26,11 +26,11 @@ export const ScaleWrapper = ({ children }: { children: React.ReactNode }) => {
             const w = window.innerWidth
             const BASE = 1440
 
-            if (w < BASE && w > 768) {
+            if (w < BASE && w >= 1024) {
                 // Round to 2 decimal places to avoid triggering repaint on micro changes
                 setZoom(Math.round((w / BASE) * 100) / 100)
             } else {
-                setZoom(null) // no scaling needed
+                setZoom(null) // no scaling needed for mobile/tablet or large screens
             }
         }
 

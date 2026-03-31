@@ -1,11 +1,12 @@
 'use client'
 
 import SmoothScroll from '@/components/SmoothScroll'
-
 import { Loader } from '@/components/ui/Loader'
 import { PhaseIndicator } from '@/components/ui/PhaseIndicator'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, Suspense, lazy } from 'react'
 import { logEvent } from '@/lib/firebase'
+import { useDeviceType } from '@/lib/device'
+import { SplinePlaceholder } from '@/components/ui/SplinePlaceholder'
 
 import dynamic from 'next/dynamic'
 
@@ -18,7 +19,9 @@ const ProjectsMoreSection = dynamic(() => import('@/components/sections/Projects
 const EducationSection = dynamic(() => import('@/components/sections/EducationSection').then(mod => mod.EducationSection))
 const ContactSection = dynamic(() => import('@/components/sections/ContactSection').then(mod => mod.ContactSection))
 const StarryBackground = dynamic(() => import('@/components/StarryBackground').then(mod => mod.StarryBackground), { ssr: false })
-const SplineBackground = dynamic(() => import('@/components/SplineBackground').then(mod => mod.SplineBackground), { ssr: false })
+
+// Pre-load Spline component once at module level
+const SplineBackgroundLazy = lazy(() => import('@/components/SplineBackground').then(mod => ({ default: mod.SplineBackground })))
 
 const PHASES = [
   { id: 1, name: 'Introduction', title: 'Welcome' },
@@ -33,12 +36,50 @@ const PHASES = [
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [activePhase, setActivePhase] = useState(1)
+  const [splinePreloaded, setSplinePreloaded] = useState(false)
+  const [heroVisible, setHeroVisible] = useState(false)
+  const [splineLoaded, setSplineLoaded] = useState(false)
+  const { isReady, isMobile, isTablet, orientation } = useDeviceType()
 
-  // Initial load timer
+  // Observe Hero section visibility for deferred Spline loading
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000)
+    if (!isReady) return
+    if (isMobile || (isTablet && orientation === 'portrait')) return
+    
+    const hero = document.getElementById('phase-1')
+    if (!hero) return
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHeroVisible(entry.isIntersecting)
+      },
+      { rootMargin: '200px', threshold: 0.1 }
+    )
+    
+    observer.observe(hero)
+    return () => observer.disconnect()
+  }, [isReady, isMobile, isTablet, orientation])
+
+  // Preload Spline chunk in background for desktop
+  useEffect(() => {
+    if (!isReady) return
+    if (isMobile || (isTablet && orientation === 'portrait')) return
+    
+    // Start preloading immediately
+    import('@/components/SplineBackground').then(() => {
+      setSplinePreloaded(true)
+    })
+  }, [isReady, isMobile, isTablet, orientation])
+
+  // Initial load timer - shorter for mobile, but wait for device detection and spline preload
+  useEffect(() => {
+    if (!isReady) return // Wait for device detection
+    if (!isMobile && !(isTablet && orientation === 'portrait') && !splinePreloaded) return // Wait for spline on desktop
+    
+    const loadTime = isMobile ? 1000 : 1500
+    const timer = setTimeout(() => setIsLoading(false), loadTime)
     return () => clearTimeout(timer)
-  }, [])
+  }, [isMobile, isReady, splinePreloaded, isTablet, orientation])
 
   // Optimize: Use IntersectionObserver instead of scroll listener
   useEffect(() => {
@@ -81,25 +122,42 @@ export default function Home() {
     }
   }, [isLoading])
 
+  // Determine if we should use mobile layout
+  const isMobileLayout = isMobile || (isTablet && orientation === 'portrait')
+
+  // Show Spline during Hero (phase 1) and Skills (phase 2) sections
+  const showSpline = (activePhase === 1 || activePhase === 2) && !isMobileLayout
+  const showPlaceholder = showSpline && !splineLoaded && !isLoading
+
+  // Only render Spline on desktop (> 1024px)
   return (
     <SmoothScroll>
       {isLoading && <Loader />}
 
-      {/* Spline background is memoized internally */}
-      <SplineBackground isLoading={isLoading} activePhase={activePhase} />
+      {/* Spline background - ONLY loaded on desktop during phase 1 and 2 */}
+      {showPlaceholder && <SplinePlaceholder />}
+      {showSpline && (
+        <Suspense fallback={null}>
+          <SplineBackgroundLazy 
+            isLoading={isLoading} 
+            activePhase={activePhase}
+            onLoaded={() => setSplineLoaded(true)}
+          />
+        </Suspense>
+      )}
 
       <PhaseIndicator phases={PHASES as any} activePhase={activePhase} />
 
       <StarryBackground />
 
-      <main className="relative z-10 canvas-overlay-mode flex flex-col gap-48 md:gap-72 pb-48">
-        <HeroSection />
-        <SkillsSection />
-        <ExperienceSection />
-        <ProjectsSection />
-        <ProjectsMoreSection />
-        <EducationSection />
-        <ContactSection />
+      <main className={`relative z-10 canvas-overlay-mode flex flex-col pb-48 ${isMobileLayout ? 'gap-24 px-4' : 'gap-48 md:gap-72'}`}>
+        <HeroSection isMobile={isMobileLayout} />
+        <SkillsSection isMobile={isMobileLayout} />
+        <ExperienceSection isMobile={isMobileLayout} />
+        <ProjectsSection isMobile={isMobileLayout} />
+        <ProjectsMoreSection isMobile={isMobileLayout} />
+        <EducationSection isMobile={isMobileLayout} />
+        <ContactSection isMobile={isMobileLayout} />
       </main>
     </SmoothScroll>
   )

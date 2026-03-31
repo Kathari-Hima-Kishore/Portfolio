@@ -4,14 +4,18 @@ import { motion } from 'framer-motion'
 import { memo } from 'react'
 import { FaExternalLinkAlt, FaCloud, FaCode } from 'react-icons/fa'
 
-export const ProjectsMoreSection = memo(function ProjectsMoreSection() {
+interface ProjectsMoreSectionProps {
+  isMobile?: boolean
+}
+
+export const ProjectsMoreSection = memo(function ProjectsMoreSection({ isMobile = false }: ProjectsMoreSectionProps) {
     const sectionVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" as const } }
+        hidden: { opacity: 0, y: isMobile ? 30 : 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: isMobile ? 0.5 : 0.8, ease: "easeOut" as const } }
     }
 
     return (
-        <section id="phase-5" className="min-h-screen flex items-center justify-center p-8">
+        <section id="phase-5" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-4' : 'p-8'}`}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -19,8 +23,8 @@ export const ProjectsMoreSection = memo(function ProjectsMoreSection() {
                 variants={sectionVariants}
                 className="max-w-6xl w-full pointer-events-auto"
             >
-                <h2 className="text-4xl font-black text-white mb-12 text-center">More Projects</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <h2 className={`font-black text-white mb-12 text-center ${isMobile ? 'text-3xl' : 'text-4xl'}`}>More Projects</h2>
+                <div className={`grid gap-8 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
 
                     {/* AR Visualizer */}
                     <div className="group bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">

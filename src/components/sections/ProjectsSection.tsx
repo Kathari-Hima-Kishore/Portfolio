@@ -5,24 +5,28 @@ import { memo } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import Image from 'next/image'
 
-export const ProjectsSection = memo(function ProjectsSection() {
+interface ProjectsSectionProps {
+  isMobile?: boolean
+}
+
+export const ProjectsSection = memo(function ProjectsSection({ isMobile = false }: ProjectsSectionProps) {
     const sectionVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" as const } }
+        hidden: { opacity: 0, y: isMobile ? 30 : 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: isMobile ? 0.5 : 0.8, ease: "easeOut" as const } }
     }
 
     return (
-        <section id="phase-4" className="min-h-screen flex items-center justify-center p-8">
+        <section id="phase-4" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-4' : 'p-8'}`}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.5 }}
                 variants={sectionVariants}
-                className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-12 pointer-events-auto"
+                className={`max-w-6xl w-full flex items-center gap-12 pointer-events-auto ${isMobile ? 'flex-col' : 'flex-col md:flex-row'}`}
             >
-                <div className="w-full md:w-1/2">
+                <div className={`${isMobile ? 'w-full' : 'w-full md:w-1/2'}`}>
                     <span className="text-accent tracking-widest uppercase text-sm font-bold mb-2 block">Featured Project</span>
-                    <h2 className="text-4xl md:text-5xl font-black text-white mb-6">Event Management System</h2>
+                    <h2 className={`font-black text-white mb-6 ${isMobile ? 'text-2xl' : 'text-4xl md:text-5xl'}`}>Event Management System</h2>
                     <p className="text-white/70 leading-relaxed mb-6">
                         A modern event management platform featuring real-time data synchronization and a robust <strong>3-tier Role-Based Access Control (RBAC)</strong> system. Built with <strong>Flask</strong> and <strong>Firebase</strong> for seamless performance.
                     </p>

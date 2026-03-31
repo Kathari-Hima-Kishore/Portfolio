@@ -4,9 +4,10 @@ import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
-import { MobileWarning } from '@/components/ui/MobileWarning'
+import { DeviceHandler } from '@/components/ui/DeviceHandler'
 import { ScaleWrapper } from '@/components/ui/ScaleWrapper'
 import { AnalyticsProvider } from '@/components/AnalyticsProvider'
+import { MobileNotice } from '@/components/ui/MobileNotice'
 
 const SITE_URL = 'https://kathari-hima-kishore.tech'
 
@@ -120,11 +121,12 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-bg text-text overflow-x-hidden`}>
         <AnalyticsProvider />
-        <MobileWarning>
+        <MobileNotice />
+        <DeviceHandler>
           <ScaleWrapper>
             {children}
           </ScaleWrapper>
-        </MobileWarning>
+        </DeviceHandler>
       </body>
     </html>
   )

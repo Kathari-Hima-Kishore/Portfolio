@@ -227,3 +227,50 @@ body::after {
     transform: scale(0.9);
   }
 }
+
+/* Mobile-specific styles */
+@media (max-width: 1023px) {
+  /* Reduce gap between sections on mobile */
+  main {
+    gap: 6rem !important;
+  }
+
+  /* Ensure text doesn't overflow on small screens */
+  h1, h2, h3, h4, h5, h6 {
+    word-break: break-word;
+  }
+
+  /* Touch-friendly tap targets */
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduce animation distances for mobile */
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-layout * {
+      --animation-distance: 20px;
+    }
+  }
+}
+
+/* Mobile landscape adjustments */
+@media (max-width: 1023px) and (orientation: landscape) {
+  .min-h-screen {
+    min-height: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  /* Stack buttons vertically */
+  .flex-col-mobile {
+    flex-direction: column;
+  }
+}
