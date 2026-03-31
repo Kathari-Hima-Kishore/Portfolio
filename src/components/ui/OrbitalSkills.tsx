@@ -16,31 +16,31 @@ interface SkillNode {
 
 const skillNodes: SkillNode[] = [
   {
+    id: 'cloud',
+    name: 'Cloud & DevOps',
+    icon: <FaCloud />,
+    color: 'from-purple-500 to-violet-400',
+    glowColor: 'rgba(139, 92, 246, 0.5)',
+    skills: ['Microsoft Azure', 'Google Firebase', 'Docker', 'Git/GitHub'],
+    angle: 270, // North (top)
+  },
+  {
     id: 'frontend',
     name: 'Frontend',
     icon: <FaCode />,
     color: 'from-blue-500 to-cyan-400',
     glowColor: 'rgba(59, 130, 246, 0.5)',
-    skills: ['HTML & CSS', 'Tailwind CSS', 'JavaScript', 'React.js', 'TypeScript'],
-    angle: 0,
+    skills: ['HTML & CSS', 'Tailwind CSS', 'JavaScript', 'React.js'],
+    angle: 180, // West (left)
   },
   {
     id: 'backend',
-    name: 'Backend',
+    name: 'Backend & Data',
     icon: <FaServer />,
     color: 'from-green-500 to-emerald-400',
     glowColor: 'rgba(16, 185, 129, 0.5)',
-    skills: ['Python', 'Node.js', 'SQL', 'REST APIs', 'Express'],
-    angle: 90,
-  },
-  {
-    id: 'cloud',
-    name: 'Cloud',
-    icon: <FaCloud />,
-    color: 'from-purple-500 to-violet-400',
-    glowColor: 'rgba(139, 92, 246, 0.5)',
-    skills: ['Microsoft Azure', 'Google Firebase', 'Docker', 'Git/GitHub', 'CI/CD'],
-    angle: 180,
+    skills: ['Python', 'Node.js', 'SQL'],
+    angle: 0, // East (right)
   },
   {
     id: 'tools',
@@ -48,17 +48,18 @@ const skillNodes: SkillNode[] = [
     icon: <FaTools />,
     color: 'from-orange-500 to-amber-400',
     glowColor: 'rgba(245, 158, 11, 0.5)',
-    skills: ['Beeceptor', 'Spline', 'Jira', 'Miro', 'Figma'],
-    angle: 270,
+    skills: ['Beeceptor', 'Spline', 'Jira', 'Miro'],
+    angle: 90, // South (bottom)
   },
 ]
 
 // Static positions for SSR to prevent hydration mismatch
+// Order: Cloud (N), Frontend (W), Backend (E), Tools (S)
 const STATIC_POSITIONS = [
-  { x: 120, y: 0 },    // Frontend (0°)
-  { x: 0, y: 120 },    // Backend (90°)
-  { x: -120, y: 0 },   // Cloud (180°)
-  { x: 0, y: -120 },   // Tools (270°)
+  { x: 0, y: -120 },   // Cloud - North (top)
+  { x: -120, y: 0 },   // Frontend - West (left)
+  { x: 120, y: 0 },    // Backend - East (right)
+  { x: 0, y: 120 },    // Tools - South (bottom)
 ]
 
 export function OrbitalSkills() {
@@ -164,20 +165,15 @@ export function OrbitalSkills() {
               </motion.span>
             )}
 
-            {/* Expanded skill list - centered under the node */}
+            {/* Expanded skill list */}
             <AnimatePresence>
               {isExpanded && (
                 <motion.div
                   initial={{ opacity: 0, y: 10, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                  className="fixed z-50 w-[200px]"
-                  style={{ 
-                    left: '50%', 
-                    top: 'calc(50% - 20px)',
-                    marginLeft: '-100px',
-                    transform: 'translateY(-50%)'
-                  }}
+                  className="absolute top-20 left-1/2 w-[200px] z-50"
+                  style={{ marginLeft: '-100px', textAlign: 'center' }}
                 >
                   <div className="bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl">
                     <div className="flex items-center justify-between mb-3">

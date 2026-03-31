@@ -76,7 +76,7 @@ export default function Home() {
     if (!isReady) return // Wait for device detection
     if (!isMobile && !(isTablet && orientation === 'portrait') && !splinePreloaded) return // Wait for spline on desktop
     
-    const loadTime = isMobile ? 1000 : 1500
+    const loadTime = isMobile ? 500 : isTablet ? 600 : 1000
     const timer = setTimeout(() => setIsLoading(false), loadTime)
     return () => clearTimeout(timer)
   }, [isMobile, isReady, splinePreloaded, isTablet, orientation])
@@ -122,8 +122,8 @@ export default function Home() {
     }
   }, [isLoading])
 
-  // Determine if we should use mobile layout
-  const isMobileLayout = isMobile || (isTablet && orientation === 'portrait')
+  // Determine if we should use mobile layout - both mobile AND tablet always use simplified view
+  const isMobileLayout = isMobile || isTablet
 
   // Show Spline during Hero (phase 1) and Skills (phase 2) sections
   const showSpline = (activePhase === 1 || activePhase === 2) && !isMobileLayout
