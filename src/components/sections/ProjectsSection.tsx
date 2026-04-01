@@ -42,7 +42,7 @@ export const ProjectsSection = memo(function ProjectsSection({ isMobile = false 
                                 <a href="https://github.com/Kathari-Hima-kishore/event-management-system-with-firebase" target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 rounded-lg flex items-center gap-2 text-sm font-medium bg-white/10 border border-white/20 hover:bg-white/20 transition-colors">
                                     <FaExternalLinkAlt size={14} /> GitHub
                                 </a>
-                                <a href="https://event-management-system-with-firebase.onrender.com" target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 rounded-lg text-sm font-bold bg-accent/20 border border-accent/40 hover:bg-accent/30 transition-colors">
+                                <a href="https://event-management-system-with-fireba.vercel.app/" target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 rounded-lg text-sm font-bold bg-accent/20 border border-accent/40 hover:bg-accent/30 transition-colors">
                                     Live Demo
                                 </a>
                             </div>
@@ -76,7 +76,7 @@ export const ProjectsSection = memo(function ProjectsSection({ isMobile = false 
                                 <a href="https://github.com/Kathari-Hima-kishore/event-management-system-with-firebase" target="_blank" rel="noopener noreferrer" className="brutal-btn px-6 py-3 rounded-xl flex items-center gap-2">
                                     <FaExternalLinkAlt size={14} /> GitHub Repo
                                 </a>
-                                <a href="https://event-management-system-with-firebase.onrender.com" target="_blank" rel="noopener noreferrer" className="brutal-btn-accent px-6 py-3 rounded-xl font-bold">
+                                <a href="https://event-management-system-with-fireba.vercel.app/" target="_blank" rel="noopener noreferrer" className="brutal-btn-accent px-6 py-3 rounded-xl font-bold">
                                     Live Demo
                                 </a>
                             </div>

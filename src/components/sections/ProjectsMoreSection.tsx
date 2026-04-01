@@ -34,7 +34,7 @@ export const ProjectsMoreSection = memo(function ProjectsMoreSection({ isMobile 
                                 <a href="https://github.com/Kathari-Hima-kishore/AR-3D-Visualizer" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
                                     <FaCode size={18} />
                                 </a>
-                                <a href="https://ar-3d-visualizer.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
+                                <a href="https://arobjectvisualizer.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
                                     <FaExternalLinkAlt size={18} />
                                 </a>
                             </div>
