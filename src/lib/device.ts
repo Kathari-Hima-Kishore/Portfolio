@@ -86,8 +86,9 @@ export function getDeviceType(): DeviceType {
     }
     return 'tablet'  // Default to tablet for this range
   } else {
-    // Large screen but has touch? Likely a large tablet (iPad Pro, etc)
-    if (hasTouch && hasCoarsePointer && !/windows|macintosh|mac os x/i.test(userAgent)) {
+    // Large screen (>= TABLET_MAX) but has touch? Likely a large tablet (iPad Pro, etc)
+    // Even if UA says Macintosh, if it has touch it's probably an iPad in desktop mode
+    if (hasTouch && hasCoarsePointer) {
       return 'tablet'
     }
     return 'pc'

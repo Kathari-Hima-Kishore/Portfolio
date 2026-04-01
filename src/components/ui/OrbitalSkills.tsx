@@ -175,7 +175,7 @@ export function OrbitalSkills() {
                   className="absolute top-20 left-1/2 w-[200px] z-50"
                   style={{ marginLeft: '-100px', textAlign: 'center' }}
                 >
-                  <div className="brutal-card p-4">
+                  <div className="bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl">
                     <div className="flex items-center justify-between mb-3">
                       <h4 className={`text-sm font-bold bg-gradient-to-r ${node.color} bg-clip-text text-transparent`}>
                         {node.name}

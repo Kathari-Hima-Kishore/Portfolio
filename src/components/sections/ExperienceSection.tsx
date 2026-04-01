@@ -31,15 +31,23 @@ export const ExperienceSection = memo(function ExperienceSection({ isMobile = fa
                             <div className="w-3 h-3 bg-accent rounded-full animate-pulse"></div>
                         </div>
                         <div className={`brutal-card p-6 rounded-2xl ${isMobile ? 'w-full' : 'w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)]'}`}>
-                            <div className="flex justify-between items-center mb-2">
-                                <h3 className="font-bold text-white text-xl">Microsoft AI Azure Intern - Virtual</h3>
-                                <span className="text-xs text-accent brutal-border-accent px-2 py-1 rounded">May - Jun 2025</span>
+                            <div className="flex justify-between items-start mb-2">
+                                <h3 className="font-bold text-white text-xl">Microsoft AI Azure Intern</h3>
+                                <span className="text-xs border border-white/30 px-2 py-1 rounded text-white">May - Jun 2025</span>
                             </div>
                             <div className="text-sm text-gray-400 mb-4">AICTE (Microsoft Initiative)</div>
                             <ul className="text-white/70 text-sm list-disc list-inside space-y-2">
-                                <li>Acquired hands-on expertise in Azure fundamentals, AI Foundry services.</li>
-                                <li>Integrated Azure AI services into full-stack apps, managing credentials and APIs.</li>
-                                <li>Built a security vulnerability scanner analyzing 100+ target URLs for potential threats using Azure&apos;s AI services.</li>
+                                {isMobile ? (
+                                    <>
+                                        <li>Led engineering of 5+ cloud-native microservices on Azure, integrating Azure AI Foundry APIs.</li>
+                                        <li>Architected scalable Python middleware on Azure App Service with Azure SQL Database.</li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li>Led the engineering of 5+ cloud-native microservices on Microsoft Azure, orchestrating the integration of Azure AI Foundry APIs into full-stack applications.</li>
+                                        <li>Architected scalable Python middleware deployed on Azure App Service, integrating Azure SQL Database with optimized connection pooling.</li>
+                                    </>
+                                )}
                             </ul>
                         </div>
                     </div>
@@ -50,15 +58,14 @@ export const ExperienceSection = memo(function ExperienceSection({ isMobile = fa
                             <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
                         </div>
                         <div className={`brutal-card p-6 rounded-2xl ${isMobile ? 'w-full' : 'w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)]'}`}>
-                            <div className="flex justify-between items-center mb-2">
-                                <h3 className="font-bold text-white text-xl">Python Development Intern - Virtual</h3>
-                                <span className="text-xs text-white/60 brutal-border px-2 py-1 rounded">Jul - Aug 2023</span>
+                            <div className="flex justify-between items-start mb-2">
+                                <h3 className="font-bold text-white text-xl">Python Development Intern</h3>
+                                <span className={`text-xs border border-white/30 px-2 py-1 rounded ${isMobile ? 'text-white' : 'text-white/60'}`}>Jul - Aug 2023</span>
                             </div>
                             <div className="text-sm text-gray-400 mb-4">SpaceZee Technologies</div>
                             <ul className="text-white/70 text-sm list-disc list-inside space-y-2">
-                                <li>Engineered a web scraper using BeautifulSoup to fetch real-time data from 10+ sources.</li>
-                                <li>Processed 5,000+ data records daily with 98% accuracy.</li>
-                                <li>Implemented robust validation pipelines for data consistency.</li>
+                                <li>Streamlined data collection by architecting data pipelines and web scraping tools, aggregating real-time data from 10+ sources.</li>
+                                <li>Improved data quality to 98% accuracy by processing 5,000+ records daily through validation pipelines.</li>
                             </ul>
                         </div>
                     </div>

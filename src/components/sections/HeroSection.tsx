@@ -23,8 +23,8 @@ export const HeroSection = memo(function HeroSection({ isMobile = false }: HeroS
                 variants={sectionVariants}
                 className={`max-w-7xl w-full mx-auto ${isMobile ? 'text-center' : 'grid grid-cols-1 md:grid-cols-12 gap-12'}`}
             >
-                <div className={`flex flex-col justify-center ${isMobile ? 'w-full items-start' : 'items-start md:col-span-7'}`}>
-                    <p className={`text-accent uppercase mb-6 font-medium ${isMobile ? 'text-sm tracking-[0.25em]' : 'text-sm tracking-[0.3em]'}`}>Hello, World.</p>
+                <div className={`flex flex-col justify-center ${isMobile ? 'w-full items-center' : 'items-start md:col-span-7'}`}>
+                    <p className={`text-accent uppercase mb-6 font-medium text-center ${isMobile ? 'text-sm tracking-[0.25em]' : 'text-sm tracking-[0.3em]'}`}>Hello, World.</p>
                     <h1 className={`font-black text-white leading-[0.9] mb-6 ${isMobile ? 'text-5xl sm:text-6xl' : 'text-6xl md:text-8xl'}`}>
                         Kathari <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Hima Kishore</span>
                     </h1>
@@ -35,11 +35,11 @@ export const HeroSection = memo(function HeroSection({ isMobile = false }: HeroS
 
                     <div className={`flex gap-4 pointer-events-auto ${isMobile ? 'flex-row w-full max-w-sm mx-auto' : ''}`}>
                         <a href="https://github.com/Kathari-Hima-kishore" target="_blank" rel="noopener noreferrer"
-                            className={`brutal-btn px-6 py-3.5 rounded-full flex items-center justify-center gap-2 text-white text-sm ${isMobile ? 'flex-1' : ''}`}>
+                            className={`px-6 py-3.5 rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium bg-white/10 border border-white/20 hover:bg-white/20 transition-colors ${isMobile ? 'flex-1' : ''}`}>
                             <FaGithub /> GitHub
                         </a>
                         <a href="mailto:himakishorekathari@gmail.com"
-                            className={`brutal-btn px-6 py-3.5 rounded-full flex items-center justify-center gap-2 text-white text-sm ${isMobile ? 'flex-1' : ''}`}>
+                            className={`px-6 py-3.5 rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium bg-accent/20 border border-accent/40 hover:bg-accent/30 transition-colors ${isMobile ? 'flex-1' : ''}`}>
                             <FaEnvelope /> Contact
                         </a>
                     </div>

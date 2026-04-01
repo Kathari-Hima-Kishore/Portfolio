@@ -71,8 +71,7 @@ export const DeviceHandler = ({ children }: { children: React.ReactNode }) => {
                         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 flex items-start gap-3">
                             <FaPlug className="text-yellow-400 mt-1 flex-shrink-0" />
                             <p className="text-white/80 text-sm text-left">
-                                <strong>Tip:</strong> Plug in your laptop to power for the best experience. 
-                                Also enable hardware acceleration in your browser settings.
+                                <strong>Tip:</strong> Along with Graphic Acceleration, Plug-in your device to power for best performance
                             </p>
                         </div>
 

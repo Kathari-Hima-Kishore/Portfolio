@@ -4,7 +4,6 @@ import SmoothScroll from '@/components/SmoothScroll'
 import { Loader } from '@/components/ui/Loader'
 import { PhaseIndicator } from '@/components/ui/PhaseIndicator'
 import { useState, useEffect, Suspense, lazy } from 'react'
-import { logEvent } from '@/lib/firebase'
 import { useDeviceType } from '@/lib/device'
 import { SplinePlaceholder } from '@/components/ui/SplinePlaceholder'
 
@@ -95,14 +94,6 @@ export default function Home() {
             const phaseId = parseInt(entry.target.id.replace('phase-', ''), 10)
             if (!isNaN(phaseId)) {
               setActivePhase(phaseId)
-              // Track which section the user scrolled into
-              const phase = PHASES.find(p => p.id === phaseId)
-              if (phase) {
-                logEvent('section_view', {
-                  section_id: phaseId,
-                  section_name: phase.name,
-                })
-              }
             }
           }
         })
@@ -153,7 +144,7 @@ export default function Home() {
 
       <StarryBackground />
 
-      <main className={`relative z-10 canvas-overlay-mode flex flex-col pb-48 ${isMobileLayout ? 'gap-24 px-4' : 'gap-48 md:gap-72'}`}>
+      <main className={`relative z-10 canvas-overlay-mode flex flex-col pb-48 ${isMobileLayout ? 'gap-32 px-4' : 'gap-48 md:gap-72'}`}>
         <HeroSection isMobile={isMobileLayout} />
         <SkillsSection isMobile={isMobileLayout} />
         <ExperienceSection isMobile={isMobileLayout} />

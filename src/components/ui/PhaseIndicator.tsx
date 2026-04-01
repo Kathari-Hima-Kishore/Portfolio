@@ -28,7 +28,7 @@ export function PhaseIndicator({ phases, activePhase }: PhaseIndicatorProps) {
   }
 
   return (
-    <div className="fixed right-0 md:right-8 top-1/2 -translate-y-1/2 z-[100] flex flex-col gap-4 pointer-events-auto pr-2 md:pr-0">
+    <div className="fixed right-0 md:right-8 top-1/2 -translate-y-1/2 z-[100] flex flex-col gap-4 pointer-events-auto pr-1 md:pr-0">
       {phases.map((phase) => (
         <button
           key={phase.id}

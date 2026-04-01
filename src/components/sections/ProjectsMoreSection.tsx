@@ -27,46 +27,52 @@ export const ProjectsMoreSection = memo(function ProjectsMoreSection({ isMobile 
                 <div className={`grid gap-8 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'}`}>
 
                     {/* AR Visualizer */}
-                    <div className="group bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-                        <div className="flex justify-between items-start mb-6">
-                            <div className="p-3 bg-purple-500/20 rounded-lg text-purple-400 text-xl"><FaCloud /></div>
+                    <div className={`group p-6 rounded-2xl ${isMobile ? 'bg-white/5 border border-white/10' : 'brutal-card'}`}>
+                        <div className="flex justify-between items-start mb-4">
+                            <div className={`p-3 bg-purple-500/20 rounded-lg text-purple-400 text-xl ${isMobile ? '' : 'brutal-border'}`}><FaCloud /></div>
                             <div className="flex gap-3">
-                                <a href="https://github.com/Kathari-Hima-kishore/AR-3D-Visualizer" target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-white transition-colors">
+                                <a href="https://github.com/Kathari-Hima-kishore/AR-3D-Visualizer" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
                                     <FaCode size={18} />
                                 </a>
-                                <a href="https://ar-3d-visualizer.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-white transition-colors">
+                                <a href="https://ar-3d-visualizer.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
                                     <FaExternalLinkAlt size={18} />
                                 </a>
                             </div>
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-3">AR-3D-Visualizer</h3>
-                        <p className="text-white/60 mb-6 text-sm leading-relaxed">
-                            A seamless <strong>web-based Augmented Reality</strong> experience. Visualize and interact with complex 3D models in real-time directly in your browser. Features <strong>interactive object manipulation</strong> (scale, rotate, place) without native app installation.
+                        <h3 className="text-xl font-bold text-white mb-2">AR-3D-Visualizer</h3>
+                        <p className="text-white/60 mb-4 text-sm leading-relaxed">
+                            {isMobile 
+                                ? "Web-based AR experience for visualizing 3D models in real-time directly in your browser."
+                                : "A seamless web-based Augmented Reality experience. Visualize and interact with complex 3D models in real-time directly in your browser. Features interactive object manipulation (scale, rotate, place) without native app installation."
+                            }
                         </p>
                         <div className="flex gap-2 flex-wrap">
                             <span className="text-xs text-white/40 font-mono">React</span>
                             <span className="text-xs text-white/40 font-mono">Node.js</span>
-                            <span className="text-xs text-white/40 font-mono">WebGL/Three.js</span>
-                            <span className="text-xs text-white/40 font-mono">WebAR</span>
+                            <span className="text-xs text-white/40 font-mono">WebGL</span>
+                            {!isMobile && <span className="text-xs text-white/40 font-mono">WebAR</span>}
                         </div>
                     </div>
 
                     {/* Open Chat */}
-                    <div className="group bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-                        <div className="flex justify-between items-start mb-6">
-                            <div className="p-3 bg-green-500/20 rounded-lg text-green-400 text-xl"><FaCode /></div>
+                    <div className={`group p-6 rounded-2xl ${isMobile ? 'bg-white/5 border border-white/10' : 'brutal-card'}`}>
+                        <div className="flex justify-between items-start mb-4">
+                            <div className={`p-3 bg-green-500/20 rounded-lg text-green-400 text-xl ${isMobile ? '' : 'brutal-border'}`}><FaCode /></div>
                             <div className="flex gap-3">
-                                <a href="https://github.com/Kathari-Hima-kishore/real-time-community-open-chat" target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-white transition-colors">
+                                <a href="https://github.com/Kathari-Hima-kishore/real-time-community-open-chat" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
                                     <FaCode size={18} />
                                 </a>
-                                <a href="https://kathari-hima-kishore.github.io/real-time-community-open-chat/" target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-white transition-colors">
+                                <a href="https://kathari-hima-kishore.github.io/real-time-community-open-chat/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
                                     <FaExternalLinkAlt size={18} />
                                 </a>
                             </div>
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-3">Community Open Chat</h3>
-                        <p className="text-white/60 mb-6 text-sm leading-relaxed">
-                            A lightweight, real-time messaging platform designed for open community discussions. Built with pure <strong>HTML, CSS, and JavaScript</strong> for simplicity and speed. Features an intuitive UI for instant opinion sharing.
+                        <h3 className="text-xl font-bold text-white mb-2">Community Open Chat</h3>
+                        <p className="text-white/60 mb-4 text-sm leading-relaxed">
+                            {isMobile
+                                ? "Lightweight real-time messaging platform built with pure HTML, CSS, and JavaScript."
+                                : "A lightweight, real-time messaging platform designed for open community discussions. Built with pure HTML, CSS, and JavaScript for simplicity and speed."
+                            }
                         </p>
                         <div className="flex gap-2 flex-wrap">
                             <span className="text-xs text-white/40 font-mono">HTML5</span>
