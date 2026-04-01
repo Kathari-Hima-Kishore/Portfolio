@@ -29,17 +29,17 @@ export const ContactSection = memo(function ContactSection({ isMobile = false }:
                 </p>
 
                 <div className={`grid gap-6 mb-12 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-3'}`}>
-                    <a href="mailto:himakishorekathari@gmail.com" className="p-6 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 hover:-translate-y-1 transition-all group">
+                    <a href="mailto:himakishorekathari@gmail.com" className="brutal-card p-6 rounded-xl group">
                         <FaEnvelope className="text-3xl text-accent mb-4 mx-auto group-hover:scale-110 transition-transform" />
                         <h3 className="text-white font-bold mb-1">Email</h3>
                         <p className="text-white/40 text-sm break-all">himakishorekathari@gmail.com</p>
                     </a>
-                    <a href="tel:+918688339330" className="p-6 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 hover:-translate-y-1 transition-all group">
+                    <a href="tel:+918688339330" className="brutal-card p-6 rounded-xl group">
                         <FaPhone className="text-3xl text-green-400 mb-4 mx-auto group-hover:scale-110 transition-transform" />
                         <h3 className="text-white font-bold mb-1">Phone</h3>
                         <p className="text-white/40 text-sm">+91 86883 39330</p>
                     </a>
-                    <div className="p-6 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 hover:-translate-y-1 transition-all group">
+                    <div className="brutal-card p-6 rounded-xl group">
                         <FaMapMarkerAlt className="text-3xl text-red-400 mb-4 mx-auto group-hover:scale-110 transition-transform" />
                         <h3 className="text-white font-bold mb-1">Location</h3>
                         <p className="text-white/40 text-sm">Chennai, Tamil Nadu</p>

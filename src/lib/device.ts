@@ -49,18 +49,47 @@ export function detectGPUAcceleration(): 'hardware' | 'software' | 'none' {
 }
 
 /**
- * Get device type based on screen width
+ * Get device type based on screen width AND user agent/touch capabilities
+ * More accurate detection for tablets and hybrid devices
  */
 export function getDeviceType(): DeviceType {
   if (typeof window === 'undefined') return null
 
   const width = window.innerWidth
-
+  const userAgent = navigator.userAgent.toLowerCase()
+  
+  // Check for mobile patterns in user agent
+  const isMobileUA = /mobile|iphone|ipod|android.*mobile|windows phone|blackberry|opera mini/i.test(userAgent)
+  const isTabletUA = /ipad|android(?!.*mobile)|tablet|kindle|silk|playbook/i.test(userAgent)
+  
+  // Check for touch capability (coarse pointer)
+  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches
+  
+  // If user agent says it's mobile, trust that
+  if (isMobileUA) {
+    return 'mobile'
+  }
+  
+  // If user agent says it's tablet, trust that
+  if (isTabletUA) {
+    return 'tablet'
+  }
+  
+  // For devices without clear UA signatures, use screen width + touch capability
   if (width < MOBILE_MAX) {
     return 'mobile'
   } else if (width < TABLET_MAX) {
-    return 'tablet'
+    // If it has touch but width is tablet range, it's likely a tablet
+    if (hasTouch || hasCoarsePointer) {
+      return 'tablet'
+    }
+    return 'tablet'  // Default to tablet for this range
   } else {
+    // Large screen but has touch? Likely a large tablet (iPad Pro, etc)
+    if (hasTouch && hasCoarsePointer && !/windows|macintosh|mac os x/i.test(userAgent)) {
+      return 'tablet'
+    }
     return 'pc'
   }
 }

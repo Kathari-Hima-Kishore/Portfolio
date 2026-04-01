@@ -44,7 +44,8 @@ export default function Home() {
   // Observe Hero section visibility for deferred Spline loading
   useEffect(() => {
     if (!isReady) return
-    if (isMobile || (isTablet && orientation === 'portrait')) return
+    // Don't load Spline for mobile or tablet (any orientation)
+    if (isMobile || isTablet) return
     
     const hero = document.getElementById('phase-1')
     if (!hero) return
@@ -58,28 +59,30 @@ export default function Home() {
     
     observer.observe(hero)
     return () => observer.disconnect()
-  }, [isReady, isMobile, isTablet, orientation])
+  }, [isReady, isMobile, isTablet])
 
-  // Preload Spline chunk in background for desktop
+  // Preload Spline chunk in background for desktop only
   useEffect(() => {
     if (!isReady) return
-    if (isMobile || (isTablet && orientation === 'portrait')) return
+    // Don't preload for mobile or tablet (any orientation)
+    if (isMobile || isTablet) return
     
     // Start preloading immediately
     import('@/components/SplineBackground').then(() => {
       setSplinePreloaded(true)
     })
-  }, [isReady, isMobile, isTablet, orientation])
+  }, [isReady, isMobile, isTablet])
 
-  // Initial load timer - shorter for mobile, but wait for device detection and spline preload
+  // Initial load timer - shorter for mobile/tablet, wait for spline preload on desktop
   useEffect(() => {
     if (!isReady) return // Wait for device detection
-    if (!isMobile && !(isTablet && orientation === 'portrait') && !splinePreloaded) return // Wait for spline on desktop
+    // Only wait for spline preload on desktop (not mobile/tablet)
+    if (!isMobile && !isTablet && !splinePreloaded) return
     
     const loadTime = isMobile ? 500 : isTablet ? 600 : 1000
     const timer = setTimeout(() => setIsLoading(false), loadTime)
     return () => clearTimeout(timer)
-  }, [isMobile, isReady, splinePreloaded, isTablet, orientation])
+  }, [isMobile, isReady, splinePreloaded, isTablet])
 
   // Optimize: Use IntersectionObserver instead of scroll listener
   useEffect(() => {

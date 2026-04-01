@@ -50,21 +50,20 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
                                 >
                                     <div className={`grid gap-6 ${isMobile ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'}`}>
                                         {/* Frontend */}
-                                        <div className="p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-accent/40 transition-colors group">
-                                            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 text-blue-400 text-2xl group-hover:scale-110 transition-transform"><FaCode /></div>
+                                        <div className="brutal-card p-6 rounded-2xl group">
+                                            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 text-blue-400 text-2xl group-hover:scale-110 transition-transform brutal-border"><FaCode /></div>
                                             <h4 className="text-xl font-bold text-white mb-3">Frontend</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
-                                                <li></li>
                                                 <li>HTML & CSS</li>
                                                 <li>Tailwind CSS</li>
                                                 <li>Javascript</li>
-                                                <li>React.js </li>
+                                                <li>React.js</li>
                                             </ul>
                                         </div>
 
                                         {/* Backend */}
-                                        <div className="p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-accent/40 transition-colors group">
-                                            <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4 text-green-400 text-2xl group-hover:scale-110 transition-transform"><FaServer /></div>
+                                        <div className="brutal-card p-6 rounded-2xl group">
+                                            <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4 text-green-400 text-2xl group-hover:scale-110 transition-transform brutal-border"><FaServer /></div>
                                             <h4 className="text-xl font-bold text-white mb-3">Backend & Database</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>Python</li>
@@ -74,8 +73,8 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
                                         </div>
 
                                         {/* Cloud */}
-                                        <div className="p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-accent/40 transition-colors group">
-                                            <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4 text-purple-400 text-2xl group-hover:scale-110 transition-transform"><FaCloud /></div>
+                                        <div className="brutal-card-accent p-6 rounded-2xl group">
+                                            <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4 text-purple-400 text-2xl group-hover:scale-110 transition-transform brutal-border-accent"><FaCloud /></div>
                                             <h4 className="text-xl font-bold text-white mb-3">Cloud & DevOps</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>Microsoft Azure</li>
@@ -86,15 +85,14 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
                                         </div>
 
                                         {/* Tools */}
-                                        <div className="p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-accent/40 transition-colors group">
-                                            <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mb-4 text-orange-400 text-2xl group-hover:scale-110 transition-transform"><FaTools /></div>
+                                        <div className="brutal-card p-6 rounded-2xl group">
+                                            <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mb-4 text-orange-400 text-2xl group-hover:scale-110 transition-transform brutal-border"><FaTools /></div>
                                             <h4 className="text-xl font-bold text-white mb-3">API & Tools</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>Beeceptor</li>
                                                 <li>Spline</li>
                                                 <li>Jira</li>
                                                 <li>Miro</li>
-                                                
                                             </ul>
                                         </div>
                                     </div>

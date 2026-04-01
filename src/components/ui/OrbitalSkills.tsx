@@ -132,12 +132,12 @@ export function OrbitalSkills() {
             <motion.button
               onClick={() => setExpandedNode(isExpanded ? null : node.id)}
               className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${node.color} 
-                         flex items-center justify-center text-white text-xl shadow-lg
-                         border border-white/20 backdrop-blur-sm z-10`}
+                         flex items-center justify-center text-white text-xl
+                         brutal-border z-10`}
               whileHover={{ scale: isOtherNode ? 1 : 1.15 }}
               whileTap={{ scale: isOtherNode ? 1 : 0.95 }}
               style={{
-                boxShadow: `0 0 30px ${node.glowColor}, inset 0 1px 0 rgba(255,255,255,0.3)`,
+                boxShadow: `4px 4px 0px ${node.glowColor}`,
                 pointerEvents: isOtherNode ? 'none' : 'auto',
               }}
             >
@@ -175,7 +175,7 @@ export function OrbitalSkills() {
                   className="absolute top-20 left-1/2 w-[200px] z-50"
                   style={{ marginLeft: '-100px', textAlign: 'center' }}
                 >
-                  <div className="bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl">
+                  <div className="brutal-card p-4">
                     <div className="flex items-center justify-between mb-3">
                       <h4 className={`text-sm font-bold bg-gradient-to-r ${node.color} bg-clip-text text-transparent`}>
                         {node.name}
