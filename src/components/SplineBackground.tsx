@@ -181,8 +181,8 @@ export const SplineBackground = memo(function SplineBackground({
     // Phase 1 entrance
     gsap.fromTo(
       wrapper,
-      { opacity: 0, scale: 0.6, x: '25%' },
-      { opacity: 1, scale: 0.65, x: '25%', duration: 1.2, ease: 'power1.out', delay: 0.2 },
+      { opacity: 0, scale: 0.1, x: '25%' },
+      { opacity: 1, scale: 0.60, x: '25%', duration: 1.2, ease: 'power1.out', delay: 0.2 },
     )
 
     // Idle float — simpler on medium (no rotation to save compositor work)
@@ -227,8 +227,8 @@ export const SplineBackground = memo(function SplineBackground({
     // Use a smoother scrub and add intermediate keyframes for fluid motion
     const phase1To2Tween = gsap.fromTo(
       wrapper,
-      { scale: 0.65, x: '25%' },
-      { scale: 1, x: '0%', ease: 'none' } // Use 'none' for scrubbed animations
+      { scale: 0.60, x: '25%' },
+      { scale: 0.8, x: '0%', ease: 'none' } // Use 'none' for scrubbed animations
     )
 
     triggersRef.current.push(
