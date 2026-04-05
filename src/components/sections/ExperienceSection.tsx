@@ -14,7 +14,7 @@ export const ExperienceSection = memo(function ExperienceSection({ isMobile = fa
     }
 
     return (
-        <section id="phase-3" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-4' : 'p-8'}`}>
+        <section id="phase-3" className={`min-h-screen flex items-center justify-center mb-32 ${isMobile ? 'p-4' : 'p-8'}`}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"

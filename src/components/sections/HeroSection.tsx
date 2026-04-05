@@ -15,7 +15,7 @@ export const HeroSection = memo(function HeroSection({ isMobile = false }: HeroS
     }
 
     return (
-        <section id="phase-1" className={`min-h-screen flex items-center justify-center pb-20 ${isMobile ? 'px-6 py-12' : 'p-8'}`}>
+        <section id="phase-1" className={`min-h-screen flex items-center justify-center pb-20 ${isMobile ? 'px-4 py-8' : 'p-8'}`}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -23,7 +23,7 @@ export const HeroSection = memo(function HeroSection({ isMobile = false }: HeroS
                 variants={sectionVariants}
                 className={`max-w-7xl w-full mx-auto ${isMobile ? 'text-center' : 'grid grid-cols-1 md:grid-cols-12 gap-12'}`}
             >
-                <div className={`flex flex-col justify-center ${isMobile ? 'w-full items-center' : 'items-start md:col-span-7'}`}>
+                <div className={`flex flex-col justify-center ${isMobile ? 'w-full items-center px-2' : 'items-start md:col-span-7'}`}>
                     <p className={`text-accent uppercase mb-6 font-medium text-center ${isMobile ? 'text-sm tracking-[0.25em]' : 'text-sm tracking-[0.3em]'}`}>Hello, World.</p>
                     <h1 className={`font-black text-white leading-[0.9] mb-6 ${isMobile ? 'text-5xl sm:text-6xl' : 'text-6xl md:text-8xl'}`}>
                         Kathari <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Hima Kishore</span>

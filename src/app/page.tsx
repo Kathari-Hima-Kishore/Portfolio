@@ -126,7 +126,7 @@ export default function Home() {
   // Only render Spline on desktop (> 1024px)
   return (
     <SmoothScroll>
-      {isLoading && <Loader />}
+      {isLoading && <Loader isMobile={isMobileLayout} />}
 
       {/* Spline background - ONLY loaded on desktop during phase 1 and 2 */}
       {showPlaceholder && <SplinePlaceholder />}
@@ -144,7 +144,7 @@ export default function Home() {
 
       <StarryBackground />
 
-      <main className={`relative z-10 canvas-overlay-mode flex flex-col pb-48 ${isMobileLayout ? 'gap-32 px-4' : 'gap-48 md:gap-72'}`}>
+      <main className={`relative z-10 canvas-overlay-mode flex flex-col pb-48 ${isMobileLayout ? 'gap-16 px-4' : 'gap-48 md:gap-72'}`}>
         <HeroSection isMobile={isMobileLayout} />
         <SkillsSection isMobile={isMobileLayout} />
         <ExperienceSection isMobile={isMobileLayout} />

@@ -30,12 +30,12 @@ const skillNodes: SkillNode[] = [
     icon: <FaCode />,
     color: 'from-blue-500 to-cyan-400',
     glowColor: 'rgba(59, 130, 246, 0.5)',
-    skills: ['HTML & CSS', 'Tailwind CSS', 'JavaScript', 'React.js'],
+    skills: ['HTML & CSS', 'JavaScript', 'React.js', 'Next.js', 'Spline'],
     angle: 180, // West (left)
   },
   {
     id: 'backend',
-    name: 'Backend & Data',
+    name: 'Backend & Database',
     icon: <FaServer />,
     color: 'from-green-500 to-emerald-400',
     glowColor: 'rgba(16, 185, 129, 0.5)',
@@ -44,11 +44,11 @@ const skillNodes: SkillNode[] = [
   },
   {
     id: 'tools',
-    name: 'Tools',
+    name: 'API Testing & Tools',
     icon: <FaTools />,
     color: 'from-orange-500 to-amber-400',
     glowColor: 'rgba(245, 158, 11, 0.5)',
-    skills: ['Beeceptor', 'Spline', 'Jira', 'Miro'],
+    skills: ['Beeceptor', 'Jira', 'Miro'],
     angle: 90, // South (bottom)
   },
 ]

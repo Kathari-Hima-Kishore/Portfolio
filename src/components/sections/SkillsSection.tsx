@@ -20,7 +20,7 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
     const useMobileLayout = isMobile || isTabletPortrait
 
     return (
-        <section id="phase-2" className={`min-h-screen w-full relative flex items-center justify-center ${useMobileLayout ? 'p-4' : 'p-4'}`}>
+        <section id="phase-2" className={`min-h-screen w-full relative flex items-center justify-center ${useMobileLayout ? 'p-3' : 'p-4'}`}>
 
             {/* Heading - Absolute Top Left */}
             <div className={`absolute z-30 pointer-events-auto ${useMobileLayout ? 'top-6 left-4' : 'top-10 left-6 md:top-16 md:left-16'}`}>
@@ -61,9 +61,10 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
                                             <h4 className="text-xl font-bold text-white mb-3">Frontend</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>HTML & CSS</li>
-                                                <li>Tailwind CSS</li>
                                                 <li>Javascript</li>
                                                 <li>React.js</li>
+                                                <li>Next.js</li>
+                                                <li>Spline</li>
                                             </ul>
                                         </div>
 
@@ -96,7 +97,7 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
                                             <h4 className="text-xl font-bold text-white mb-3">API & Tools</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>Beeceptor</li>
-                                                <li>Spline</li>
+                                                
                                                 <li>Jira</li>
                                                 <li>Miro</li>
                                             </ul>

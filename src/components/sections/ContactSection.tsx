@@ -15,7 +15,7 @@ export const ContactSection = memo(function ContactSection({ isMobile = false }:
     }
 
     return (
-        <section id="phase-7" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-4' : 'p-8'}`}>
+        <section id="phase-7" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-3' : 'p-8'}`}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -56,7 +56,7 @@ export const ContactSection = memo(function ContactSection({ isMobile = false }:
                 </div>
 
                 <footer className="mt-24 text-white/20 text-sm">
-                    © 2026 Kathari Hima Kishore. Built with Next.js, Spline & Tailwind.
+                    © 2026 Kathari Hima Kishore. Built with React.js, Next.js, Spline & Tailwind.
                 </footer>
             </motion.div>
         </section>
