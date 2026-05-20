@@ -213,10 +213,10 @@ export const ProjectsMoreSection = memo(function ProjectsMoreSection({ isMobile 
                             }
                         </p>
                         <div className="flex gap-2 flex-wrap">
-                            <span className="text-xs text-white/40 font-mono">JavaScript</span>
-                            <span className="text-xs text-white/40 font-mono">AI/ML</span>
-                            <span className="text-xs text-white/40 font-mono">Browser APIs</span>
-                            {!isMobile && <span className="text-xs text-white/40 font-mono">Chrome Extension</span>}
+                            <span className="text-xs text-white/40 font-mono">JavaScript </span>
+                            <span className="text-xs text-white/40 font-mono"> Gen AI </span>
+                            <span className="text-xs text-white/40 font-mono"> Browser APIs </span>
+                            {!isMobile && <span className="text-xs text-white/40 font-mono"> Chrome Extension</span>}
                         </div>
                     </div>
 
