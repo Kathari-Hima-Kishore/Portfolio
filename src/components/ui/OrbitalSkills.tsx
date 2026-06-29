@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaCode, FaServer, FaCloud, FaTools, FaTimes } from 'react-icons/fa'
 
@@ -83,6 +83,36 @@ export function OrbitalSkills() {
     setNodePositions(positions)
   }, [])
 
+  // Close expanded node when clicking/tapping outside the card
+  const handleClickOutside = useCallback((e: MouseEvent | TouchEvent) => {
+    const target = e.target as Node
+    if (!target) return
+
+    const cardElement = document.querySelector('[data-expanded-card]')
+    if (cardElement && cardElement.contains(target)) {
+      return // Click inside the card - keep it open (even on X button or tile)
+    }
+
+    // Click outside the card - close it
+    setExpandedNode(null)
+  }, [])
+
+  // Add/remove event listeners when expandedNode changes
+  useEffect(() => {
+    if (expandedNode) {
+      document.addEventListener('click', handleClickOutside)
+      document.addEventListener('touchend', handleClickOutside)
+    } else {
+      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener('touchend', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener('touchend', handleClickOutside)
+    }
+  }, [expandedNode, handleClickOutside])
+
   const getNodePosition = (index: number) => {
     if (!isClient) return STATIC_POSITIONS[index]
     return nodePositions[index]
@@ -130,7 +160,12 @@ export function OrbitalSkills() {
           >
             {/* Node button */}
             <motion.button
-              onClick={() => setExpandedNode(isExpanded ? null : node.id)}
+              onClick={() => {
+                // Only expand the tile if it's collapsed, never collapse it
+                if (!isExpanded) {
+                  setExpandedNode(node.id);
+                }
+              }}
               className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${node.color} 
                          flex items-center justify-center text-white text-xl
                          brutal-border z-10`}
@@ -169,6 +204,8 @@ export function OrbitalSkills() {
             <AnimatePresence>
               {isExpanded && (
                 <motion.div
+                  key={`card-${node.id}`}
+                  data-expanded-card
                   initial={{ opacity: 0, y: 10, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.9 }}

@@ -34,7 +34,7 @@ export function MobileNotice() {
                 <h3 className="text-lg font-bold text-white mb-2">Mobile View</h3>
                 
                 <p className="text-white/60 text-sm mb-4">
-                    This is a Simplified version. Visit on desktop for full experience.
+                    This is a simplified version. Visit on <strong className="text-accent">laptop or desktop</strong> for the intended portfolio design.
                 </p>
 
                 <button
