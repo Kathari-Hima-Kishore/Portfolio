@@ -121,15 +121,25 @@ export default function Home() {
 
   // Show Spline during Hero (phase 1) and Skills (phase 2) sections
   const showSpline = (activePhase === 1 || activePhase === 2) && !isMobileLayout
-  const showPlaceholder = showSpline && !splineLoaded && !isLoading
+
+  // On desktop, show "Loading 3D Experience" overlay until Spline actually loads
+  // Only show during initial load or when Spline is active (phases 1-2) to avoid
+  // getting stuck if the user scrolls past before Spline finishes
+  const showPlaceholder = !isMobileLayout && !splineLoaded && (isLoading || showSpline)
 
   // Only render Spline on desktop (> 1024px)
   return (
     <SmoothScroll>
-      {isLoading && <Loader isMobile={isMobileLayout} />}
+      {isLoading && isMobileLayout && <Loader isMobile={true} />}
+
+      {/* Loading overlay for desktop - persists until Spline 3D object finishes loading */}
+      {showPlaceholder && (
+        <div className="fixed inset-0 z-50 bg-bg">
+          <SplinePlaceholder />
+        </div>
+      )}
 
       {/* Spline background - ONLY loaded on desktop during phase 1 and 2 */}
-      {showPlaceholder && <SplinePlaceholder />}
       {showSpline && (
         <Suspense fallback={null}>
           <SplineBackgroundLazy 
