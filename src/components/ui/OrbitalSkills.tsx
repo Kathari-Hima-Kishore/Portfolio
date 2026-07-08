@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, cloneElement, isValidElement } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaCode, FaServer, FaCloud, FaTools, FaTimes } from 'react-icons/fa'
+import { FaTimes } from 'react-icons/fa'
+import { MobileFrontendIcon, MobileBackendIcon, MobileCloudIcon, MobileToolsIcon } from '@/components/ui/SkillIcons'
 
 interface SkillNode {
   id: string
@@ -18,7 +19,7 @@ const skillNodes: SkillNode[] = [
   {
     id: 'cloud',
     name: 'Cloud & DevOps',
-    icon: <FaCloud />,
+    icon: <MobileCloudIcon />,
     color: 'from-purple-500 to-violet-400',
     glowColor: 'rgba(139, 92, 246, 0.5)',
     skills: ['Microsoft Azure', 'Google Firebase', 'Docker', 'Git/GitHub'],
@@ -27,7 +28,7 @@ const skillNodes: SkillNode[] = [
   {
     id: 'frontend',
     name: 'Frontend',
-    icon: <FaCode />,
+    icon: <MobileFrontendIcon />,
     color: 'from-blue-500 to-cyan-400',
     glowColor: 'rgba(59, 130, 246, 0.5)',
     skills: ['HTML & CSS', 'JavaScript', 'React.js', 'Next.js', 'Spline'],
@@ -36,7 +37,7 @@ const skillNodes: SkillNode[] = [
   {
     id: 'backend',
     name: 'Backend & Database',
-    icon: <FaServer />,
+    icon: <MobileBackendIcon />,
     color: 'from-green-500 to-emerald-400',
     glowColor: 'rgba(16, 185, 129, 0.5)',
     skills: ['Python', 'Node.js', 'SQL'],
@@ -45,7 +46,7 @@ const skillNodes: SkillNode[] = [
   {
     id: 'tools',
     name: 'API Testing & Tools',
-    icon: <FaTools />,
+    icon: <MobileToolsIcon />,
     color: 'from-orange-500 to-amber-400',
     glowColor: 'rgba(245, 158, 11, 0.5)',
     skills: ['Beeceptor', 'Jira', 'Miro'],
@@ -62,7 +63,7 @@ const STATIC_POSITIONS = [
   { x: 0, y: 120 },    // Tools - South (bottom)
 ]
 
-export function OrbitalSkills() {
+export function OrbitalSkills({ animateIcons }: { animateIcons?: boolean }) {
   const [expandedNode, setExpandedNode] = useState<string | null>(null)
   const [rotation, setRotation] = useState(0)
   const [isClient, setIsClient] = useState(false)
@@ -176,7 +177,7 @@ export function OrbitalSkills() {
                 pointerEvents: isOtherNode ? 'none' : 'auto',
               }}
             >
-              {node.icon}
+              {isValidElement(node.icon) ? cloneElement(node.icon as React.ReactElement<{ animate?: boolean }>, { animate: animateIcons }) : node.icon}
               
               {/* Pulse ring - hide when any node is expanded */}
               {!hasExpanded && isClient && (

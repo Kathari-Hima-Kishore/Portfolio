@@ -1,8 +1,8 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { memo, useState } from 'react'
-import { FaCode, FaServer, FaCloud, FaTools } from 'react-icons/fa'
+import { memo, useEffect, useRef, useState } from 'react'
+import { DesktopFrontendIcon, DesktopBackendIcon, DesktopCloudIcon, DesktopToolsIcon } from '@/components/ui/SkillIcons'
 import { CubeButton } from '@/components/ui/CubeButton'
 import { OrbitalSkills } from '@/components/ui/OrbitalSkills'
 import { useDeviceType } from '@/lib/device'
@@ -13,14 +13,45 @@ interface SkillsSectionProps {
 
 export const SkillsSection = memo(function SkillsSection({ isMobile = false }: SkillsSectionProps) {
     const [showSkillsList, setShowSkillsList] = useState(false)
+    const [animateIcons, setAnimateIcons] = useState(false)
+    const sectionRef = useRef<HTMLElement>(null)
     const { deviceType, orientation } = useDeviceType()
     
     // Tablet in portrait should use mobile-like layout but scaled
     const isTabletPortrait = deviceType === 'tablet' && orientation === 'portrait'
     const useMobileLayout = isMobile || isTabletPortrait
 
+    // Mobile: trigger icon animation when section enters viewport
+    useEffect(() => {
+        if (!useMobileLayout) return
+        const el = sectionRef.current
+        if (!el) return
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setAnimateIcons(true)
+                    observer.disconnect()
+                }
+            },
+            { threshold: 0.2 }
+        )
+
+        observer.observe(el)
+        return () => observer.disconnect()
+    }, [useMobileLayout])
+
+    // Desktop: trigger icon animation each time the list opens
+    useEffect(() => {
+        if (!useMobileLayout && showSkillsList) {
+            setAnimateIcons(true)
+        } else if (!useMobileLayout && !showSkillsList) {
+            setAnimateIcons(false)
+        }
+    }, [showSkillsList, useMobileLayout])
+
     return (
-        <section id="phase-2" className={`min-h-screen w-full relative flex items-center justify-center ${useMobileLayout ? 'p-3' : 'p-4'}`}>
+        <section ref={sectionRef} id="phase-2" className={`min-h-screen w-full relative flex items-center justify-center ${useMobileLayout ? 'p-3' : 'p-4'}`}>
 
             {/* Heading - Absolute Top Left */}
             <div className={`absolute z-30 pointer-events-auto ${useMobileLayout ? 'top-6 left-4' : 'top-10 left-6 md:top-16 md:left-16'}`}>
@@ -32,7 +63,7 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
             {/* Mobile/Tablet Portrait: Show Orbital Constellation */}
             {useMobileLayout ? (
                 <div className={`w-full flex flex-col items-center justify-center ${isTabletPortrait ? 'mt-8 scale-125' : 'mt-16'}`}>
-                    <OrbitalSkills />
+                    <OrbitalSkills animateIcons={animateIcons} />
                 </div>
             ) : (
                 <>
@@ -57,7 +88,7 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
                                     <div className={`grid gap-6 ${useMobileLayout ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'}`}>
                                         {/* Frontend */}
                                         <div className="brutal-card p-6 rounded-2xl group">
-                                            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 text-blue-400 text-2xl group-hover:scale-110 transition-transform brutal-border"><FaCode /></div>
+                                            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 text-blue-400 text-2xl group-hover:scale-110 transition-transform"><DesktopFrontendIcon animate={animateIcons} loop /></div>
                                             <h4 className="text-xl font-bold text-white mb-3">Frontend</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>HTML & CSS</li>
@@ -70,7 +101,7 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
 
                                         {/* Backend */}
                                         <div className="brutal-card p-6 rounded-2xl group">
-                                            <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4 text-green-400 text-2xl group-hover:scale-110 transition-transform brutal-border"><FaServer /></div>
+                                            <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4 text-green-400 text-2xl group-hover:scale-110 transition-transform"><DesktopBackendIcon animate={animateIcons} loop /></div>
                                             <h4 className="text-xl font-bold text-white mb-3">Backend & Database</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>Python</li>
@@ -81,7 +112,7 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
 
                                         {/* Cloud */}
                                         <div className="brutal-card-accent p-6 rounded-2xl group">
-                                            <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4 text-purple-400 text-2xl group-hover:scale-110 transition-transform brutal-border-accent"><FaCloud /></div>
+                                            <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4 text-purple-400 text-2xl group-hover:scale-110 transition-transform"><DesktopCloudIcon animate={animateIcons} loop /></div>
                                             <h4 className="text-xl font-bold text-white mb-3">Cloud & DevOps</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>Microsoft Azure</li>
@@ -93,7 +124,7 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
 
                                         {/* Tools */}
                                         <div className="brutal-card p-6 rounded-2xl group">
-                                            <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mb-4 text-orange-400 text-2xl group-hover:scale-110 transition-transform brutal-border"><FaTools /></div>
+                                            <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mb-4 text-orange-400 text-2xl group-hover:scale-110 transition-transform"><DesktopToolsIcon animate={animateIcons} loop /></div>
                                             <h4 className="text-xl font-bold text-white mb-3">API & Tools</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>Beeceptor</li>

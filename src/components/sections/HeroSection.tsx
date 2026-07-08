@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { memo } from 'react'
-import { FaGithub, FaEnvelope } from 'react-icons/fa'
+import { FaGithub } from 'react-icons/fa'
+import { ResumeModal } from '@/components/ui/ResumeModal'
 
 interface HeroSectionProps {
   isMobile?: boolean
@@ -33,15 +34,12 @@ export const HeroSection = memo(function HeroSection({ isMobile = false }: HeroS
                         Building scalable, secure, and intelligent web solutions.
                     </p>
 
-                    <div className={`flex gap-4 pointer-events-auto ${isMobile ? 'flex-row w-full max-w-sm mx-auto' : ''}`}>
+                    <div className={`flex gap-8 pointer-events-auto ${isMobile ? 'flex-row w-full max-w-sm mx-auto' : ''}`}>
                         <a href="https://github.com/Kathari-Hima-kishore" target="_blank" rel="noopener noreferrer"
-                            className={`px-6 py-3.5 rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium bg-white/10 border border-white/20 hover:bg-white/20 transition-colors ${isMobile ? 'flex-1' : ''}`}>
-                            <FaGithub /> GitHub
+                            className={`ghost-sweep ghost-sweep-classic px-6 py-3.5 text-sm ${isMobile ? 'flex-1 justify-center' : ''}`}>
+                            <FaGithub /> <span className="txt">GitHub</span>
                         </a>
-                        <a href="mailto:himakishorekathari@gmail.com"
-                            className={`px-6 py-3.5 rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium bg-accent/20 border border-accent/40 hover:bg-accent/30 transition-colors ${isMobile ? 'flex-1' : ''}`}>
-                            <FaEnvelope /> Contact
-                        </a>
+                        <ResumeModal isMobile={isMobile} />
                     </div>
                 </div>
                 {/* Right side is empty for the 3D object - hidden on mobile */}

@@ -319,6 +319,56 @@ body::after {
   }
 }
 
+/* Ghost Sweep Button — A1 Classic */
+.ghost-sweep {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 3px solid rgba(240, 240, 242, 0.25);
+  color: #f0f0f2;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 2;
+  transition: border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.ghost-sweep svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  position: relative;
+  z-index: 2;
+}
+.ghost-sweep .txt {
+  position: relative;
+  z-index: 2;
+}
+.ghost-sweep::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 130%;
+  left: -15%;
+}
+.ghost-sweep:hover {
+  color: #060608;
+  border-color: #a29bfe;
+  box-shadow: 4px 4px 0px #a29bfe;
+}
+.ghost-sweep-classic::before {
+  background: linear-gradient(135deg, #6c5ce7, #f0f0f2, #00F5FF);
+  background-size: 200% 200%;
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ghost-sweep-classic:hover::before {
+  transform: translateX(0) skewX(-15deg);
+}
+
 /* Mobile-specific styles */
 @media (max-width: 1023px) {
   /* Reduce gap between sections on mobile */
