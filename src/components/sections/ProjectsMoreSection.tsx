@@ -50,7 +50,7 @@ export const ProjectsMoreSection = memo(function ProjectsMoreSection({ isMobile 
     }
 
     return (
-        <section id="phase-5" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-3' : 'p-8'}`}>
+        <section id="phase-6" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-3' : 'p-8'}`}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -58,78 +58,8 @@ export const ProjectsMoreSection = memo(function ProjectsMoreSection({ isMobile 
                 variants={sectionVariants}
                 className="max-w-6xl w-full pointer-events-auto"
             >
-                <h2 className={`font-black text-white mb-8 text-center ${isMobile ? 'text-2xl' : 'text-4xl'}`}>More Projects</h2>
+                <h2 className={`font-black text-white mb-8 ${isMobile ? 'text-3xl' : 'text-5xl'}`}>More Projects</h2>
                 <div className={`grid gap-6 ${isPortrait ? 'grid-cols-1' : 'grid-cols-2'}`}>
-
-                    {/* Event Management System */}
-                    <div className={`group p-6 rounded-2xl ${isMobile ? 'bg-white/5 border border-white/10' : 'brutal-card'}`}>
-                        <div className="flex justify-between items-start mb-4">
-                            <div className={`p-3 bg-accent/20 rounded-lg text-accent text-xl ${isMobile ? '' : 'brutal-border-accent'}`}><FaCalendarAlt /></div>
-                            {!isMobile ? (
-                                <div className="relative w-[120px] h-[40px] flex items-center justify-center">
-                                    {/* Static icons - visible by default */}
-                                    <div className="absolute flex gap-5 transition-all duration-500 ease-out opacity-100 group-hover:opacity-0">
-                                        <a href="https://github.com/Kathari-Hima-kishore/event-management-system-with-firebase" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
-                                            <FaCode size={18} />
-                                        </a>
-                                        <a href="https://event-management-system-with-fireba.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
-                                            <FaExternalLinkAlt size={18} />
-                                        </a>
-                                    </div>
-                                    {/* Capsule with enlarged icons - visible on hover */}
-                                    <div className="absolute flex items-center bg-white/5 rounded-full px-3 py-1.5 border border-white/10 transition-all duration-500 ease-out opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:bg-white/10 group-hover:border-white/20">
-                                        <div 
-                                          className="relative"
-                                          onMouseEnter={() => setHoveredIcon('ems-github')}
-                                          onMouseLeave={() => setHoveredIcon(null)}
-                                        >
-                                          <a href="https://github.com/Kathari-Hima-kishore/event-management-system-with-firebase" target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10 block">
-                                            <FaCode size={20} />
-                                          </a>
-                                          {hoveredIcon === 'ems-github' && (
-                                            <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] text-white/60 font-mono whitespace-nowrap">Source</span>
-                                          )}
-                                        </div>
-                                        <div className="w-px h-5 bg-white/10 mx-1" />
-                                        <div 
-                                          className="relative"
-                                          onMouseEnter={() => setHoveredIcon('ems-live')}
-                                          onMouseLeave={() => setHoveredIcon(null)}
-                                        >
-                                          <a href="https://event-management-system-with-fireba.vercel.app/" target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10 block">
-                                            <FaExternalLinkAlt size={20} />
-                                          </a>
-                                          {hoveredIcon === 'ems-live' && (
-                                            <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] text-white/60 font-mono whitespace-nowrap">Live</span>
-                                          )}
-                                        </div>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="flex gap-5">
-                                    <a href="https://github.com/Kathari-Hima-kishore/event-management-system-with-firebase" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
-                                        <FaCode size={18} />
-                                    </a>
-                                    <a href="https://event-management-system-with-fireba.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
-                                        <FaExternalLinkAlt size={18} />
-                                    </a>
-                                </div>
-                            )}
-                        </div>
-                        <h3 className="text-xl font-bold text-white mb-2">Event Management System</h3>
-                        <p className="text-white/60 mb-4 text-sm leading-relaxed">
-                            {isMobile 
-                                ? "Modern platform with real-time sync and 3-tier RBAC system. Built with Flask and Firebase."
-                                : "A modern event management platform featuring real-time data synchronization and a robust 3-tier Role-Based Access Control (RBAC) system. Built with Flask and Firebase for seamless performance."
-                            }
-                        </p>
-                        <div className="flex gap-2 flex-wrap">
-                            <span className="text-xs text-white/40 font-mono">Python</span>
-                            <span className="text-xs text-white/40 font-mono">Flask</span>
-                            <span className="text-xs text-white/40 font-mono">Firebase</span>
-                            {!isMobile && <span className="text-xs text-white/40 font-mono">RBAC</span>}
-                        </div>
-                    </div>
 
                     {/* Tab Wrapper */}
                     <div className={`group p-6 rounded-2xl ${isMobile ? 'bg-white/5 border border-white/10' : 'brutal-card'}`}>
@@ -217,6 +147,76 @@ export const ProjectsMoreSection = memo(function ProjectsMoreSection({ isMobile 
                             <span className="text-xs text-white/40 font-mono"> Gen AI </span>
                             <span className="text-xs text-white/40 font-mono"> Browser APIs </span>
                             {!isMobile && <span className="text-xs text-white/40 font-mono"> Chrome Extension</span>}
+                        </div>
+                    </div>
+
+                    {/* Event Management System */}
+                    <div className={`group p-6 rounded-2xl ${isMobile ? 'bg-white/5 border border-white/10' : 'brutal-card'}`}>
+                        <div className="flex justify-between items-start mb-4">
+                            <div className={`p-3 bg-accent/20 rounded-lg text-accent text-xl ${isMobile ? '' : 'brutal-border-accent'}`}><FaCalendarAlt /></div>
+                            {!isMobile ? (
+                                <div className="relative w-[120px] h-[40px] flex items-center justify-center">
+                                    {/* Static icons - visible by default */}
+                                    <div className="absolute flex gap-5 transition-all duration-500 ease-out opacity-100 group-hover:opacity-0">
+                                        <a href="https://github.com/Kathari-Hima-kishore/event-management-system-with-firebase" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
+                                            <FaCode size={18} />
+                                        </a>
+                                        <a href="https://event-management-system-with-fireba.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
+                                            <FaExternalLinkAlt size={18} />
+                                        </a>
+                                    </div>
+                                    {/* Capsule with enlarged icons - visible on hover */}
+                                    <div className="absolute flex items-center bg-white/5 rounded-full px-3 py-1.5 border border-white/10 transition-all duration-500 ease-out opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:bg-white/10 group-hover:border-white/20">
+                                        <div 
+                                          className="relative"
+                                          onMouseEnter={() => setHoveredIcon('ems-github')}
+                                          onMouseLeave={() => setHoveredIcon(null)}
+                                        >
+                                          <a href="https://github.com/Kathari-Hima-kishore/event-management-system-with-firebase" target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10 block">
+                                            <FaCode size={20} />
+                                          </a>
+                                          {hoveredIcon === 'ems-github' && (
+                                            <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] text-white/60 font-mono whitespace-nowrap">Source</span>
+                                          )}
+                                        </div>
+                                        <div className="w-px h-5 bg-white/10 mx-1" />
+                                        <div 
+                                          className="relative"
+                                          onMouseEnter={() => setHoveredIcon('ems-live')}
+                                          onMouseLeave={() => setHoveredIcon(null)}
+                                        >
+                                          <a href="https://event-management-system-with-fireba.vercel.app/" target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10 block">
+                                            <FaExternalLinkAlt size={20} />
+                                          </a>
+                                          {hoveredIcon === 'ems-live' && (
+                                            <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] text-white/60 font-mono whitespace-nowrap">Live</span>
+                                          )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="flex gap-5">
+                                    <a href="https://github.com/Kathari-Hima-kishore/event-management-system-with-firebase" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
+                                        <FaCode size={18} />
+                                    </a>
+                                    <a href="https://event-management-system-with-fireba.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
+                                        <FaExternalLinkAlt size={18} />
+                                    </a>
+                                </div>
+                            )}
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2">Event Management System</h3>
+                        <p className="text-white/60 mb-4 text-sm leading-relaxed">
+                            {isMobile 
+                                ? "Modern platform with real-time sync and 3-tier RBAC system. Built with Flask and Firebase."
+                                : "A modern event management platform featuring real-time data synchronization and a robust 3-tier Role-Based Access Control (RBAC) system. Built with Flask and Firebase for seamless performance."
+                            }
+                        </p>
+                        <div className="flex gap-2 flex-wrap">
+                            <span className="text-xs text-white/40 font-mono">Python</span>
+                            <span className="text-xs text-white/40 font-mono">Flask</span>
+                            <span className="text-xs text-white/40 font-mono">Firebase</span>
+                            {!isMobile && <span className="text-xs text-white/40 font-mono">RBAC</span>}
                         </div>
                     </div>
 

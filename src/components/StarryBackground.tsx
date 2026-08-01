@@ -93,6 +93,11 @@ export const StarryBackground = memo(function StarryBackground() {
         function animate(timestamp: number) {
             animationFrameId = requestAnimationFrame(animate)
 
+            // Skip drawing while an overlay (lightbox) is open — the fixed
+            // semi-transparent backdrop re-samples this canvas every frame,
+            // which causes compositor flicker at the screen edge.
+            if (document.body.classList.contains('lightbox-open')) return
+
             const elapsed = timestamp - lastFrameTime
             if (elapsed < frameDuration) return   // throttle
             lastFrameTime = timestamp - (elapsed % frameDuration) // smooth carry-over

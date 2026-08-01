@@ -175,6 +175,52 @@ body::after {
   }
 }
 
+/* ── Azure logo (inline SVG) — animations gated to viewport ── */
+.cert-logo .stage{ transform-origin: 48px 48px; }
+.cert-logo circle.pulse{ transform-origin: 48px 48px; }
+
+.cert-logo path.mark{
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  fill-opacity: 0;
+  transform-origin: 48px 48px;
+}
+
+/* Animations only exist once the section is in view */
+.az-animate .cert-logo .stage{ animation: azFloat 4s ease-in-out infinite; }
+.az-animate .cert-logo circle.pulse{ animation: azPulse 3s ease-in-out infinite; }
+.az-animate .cert-logo path.mark{
+  animation: azDraw 1.4s ease forwards, azFillIn 0.6s ease forwards, azHue 8s linear infinite;
+}
+.az-animate .cert-logo path.mark:nth-of-type(1){ stroke:#114a8b; animation-delay:0s,1.4s,2.2s; }
+.az-animate .cert-logo path.mark:nth-of-type(2){ stroke:#0078d4; animation-delay:.25s,1.65s,2.2s; }
+.az-animate .cert-logo path.mark:nth-of-type(3){ stroke:#0669bc; animation-delay:.5s,1.9s,2.2s; }
+.az-animate .cert-logo path.mark:nth-of-type(4){ stroke:#2892df; animation-delay:.75s,2.15s,2.2s; }
+
+@keyframes azDraw{ to{ stroke-dashoffset:0; } }
+@keyframes azFillIn{ to{ fill-opacity:1; stroke-opacity:0; } }
+@keyframes azFloat{
+  0%,100%{ transform: translateY(0) rotate(0deg); }
+  50%{ transform: translateY(-3px) rotate(1deg); }
+}
+@keyframes azPulse{
+  0%,100%{ transform: scale(1); opacity:.7; }
+  50%{ transform: scale(21); opacity:0; }
+}
+@keyframes azHue{
+  0%,60%{ filter:none; }
+  80%{ filter: drop-shadow(0 0 3px rgba(40,146,223,.6)); }
+  100%{ filter:none; }
+}
+
+/* Pause background logo animations while the lightbox overlay is open
+   — prevents compositor thrash/flicker at screen edges. */
+body.lightbox-open .az-animate .cert-logo .stage,
+body.lightbox-open .az-animate .cert-logo circle.pulse,
+body.lightbox-open .az-animate .cert-logo path.mark{
+  animation-play-state: paused;
+}
+
 @keyframes scrollPulse {
 
   0%,

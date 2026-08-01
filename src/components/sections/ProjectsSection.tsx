@@ -16,7 +16,7 @@ export const ProjectsSection = memo(function ProjectsSection({ isMobile = false 
     }
 
     return (
-        <section id="phase-4" className={`min-h-screen flex items-center justify-center mb-32 ${isMobile ? 'p-2' : 'p-8'}`}>
+        <section id="phase-5" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-2 mb-24' : 'p-8'}`}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -29,7 +29,7 @@ export const ProjectsSection = memo(function ProjectsSection({ isMobile = false 
                         <>
                             <h2 className="font-black text-white mb-2 text-3xl">Featured Project</h2>
                             <div className="h-px bg-white/20 mb-8"></div>
-                            <h3 className="font-bold text-white mb-4 text-2xl">CodeForge</h3>
+                            <h3 className="font-black text-white mb-4 text-4xl bg-gradient-to-r from-accent-light via-white to-accent bg-clip-text text-transparent">CodeForge</h3>
                             <p className="text-white/70 leading-relaxed mb-4 text-sm">
                                 Real-time collaborative IDE with zero setup. Code together, execute in 8+ languages, and deploy to Docker — all from your browser.
                             </p>
@@ -46,8 +46,13 @@ export const ProjectsSection = memo(function ProjectsSection({ isMobile = false 
                         </>
                     ) : (
                         <>
-                            <span className="text-accent tracking-widest uppercase text-sm font-bold mb-2 block">Featured Project</span>
-                            <h2 className={`font-black text-white mb-6 ${isMobile ? 'text-2xl' : 'text-4xl md:text-5xl'}`}>CodeForge</h2>
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className="w-12 h-1 bg-accent rounded-full"></span>
+                                <span className="text-accent tracking-[0.2em] uppercase text-lg md:text-xl font-black">
+                                    Featured Project
+                                </span>
+                            </div>
+                            <h2 className={`font-black text-white mb-6 ${isMobile ? 'text-2xl' : 'text-5xl'}`}>CodeForge</h2>
                             <p className="text-white/70 leading-relaxed mb-6">
                                 A <strong>browser-based collaborative IDE</strong> that eliminates setup barriers. Code together in real-time with Monaco Editor (VS Code), execute in <strong>8+ programming languages</strong>, and deploy to <strong>Docker</strong> — all from your browser with zero configuration.
                             </p>

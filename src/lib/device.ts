@@ -105,40 +105,6 @@ export function getDeviceOrientation(): DeviceOrientation {
 }
 
 /**
- * Check if device is in portrait mode (mobile or tablet)
- */
-export function isPortrait(): boolean {
-  return getDeviceOrientation() === 'portrait'
-}
-
-/**
- * Check if device is mobile OR tablet in portrait mode
- * This is used to determine if we should skip loading the Spline keyboard
- */
-export function shouldLoadSpline(): boolean {
-  const deviceType = getDeviceType()
-  const orientation = getDeviceOrientation()
-
-  // Don't load Spline for mobile devices
-  if (deviceType === 'mobile') {
-    return false
-  }
-
-  // Don't load Spline for tablets in portrait mode
-  if (deviceType === 'tablet' && orientation === 'portrait') {
-    return false
-  }
-
-  // For PC and tablet-landscape, check GPU acceleration
-  const gpuStatus = detectGPUAcceleration()
-  if (gpuStatus === 'none' || gpuStatus === 'software') {
-    console.warn('[Device] Software rendering detected - Spline may impact performance')
-  }
-
-  return true
-}
-
-/**
  * Check if GPU acceleration is available
  */
 export function hasGPUAcceleration(): boolean {
@@ -206,20 +172,4 @@ export function useDeviceType(): {
     isPC,
     isReady,
   }
-}
-
-/**
- * Hook specifically for responsive design
- * Returns true if we should use mobile layout
- */
-export function useIsMobileLayout(): boolean {
-  const { deviceType, orientation } = useDeviceType()
-
-  // Use mobile layout for:
-  // - Mobile devices
-  // - Tablets in portrait mode
-  if (deviceType === 'mobile') return true
-  if (deviceType === 'tablet' && orientation === 'portrait') return true
-
-  return false
 }

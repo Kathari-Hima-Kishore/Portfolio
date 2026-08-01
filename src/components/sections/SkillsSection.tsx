@@ -51,19 +51,26 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
     }, [showSkillsList, useMobileLayout])
 
     return (
-        <section ref={sectionRef} id="phase-2" className={`min-h-screen w-full relative flex items-center justify-center ${useMobileLayout ? 'p-3' : 'p-4'}`}>
+        <section ref={sectionRef} id="phase-2" className={`min-h-screen w-full relative flex ${useMobileLayout ? 'flex-col p-3 pt-6 items-center' : 'items-center justify-center p-4'}`}>
 
-            {/* Heading - Absolute Top Left */}
-            <div className={`absolute z-30 pointer-events-auto ${useMobileLayout ? 'top-6 left-4' : 'top-10 left-6 md:top-16 md:left-16'}`}>
-                <h2 className={`font-black text-white/80 drop-shadow-2xl tracking-tighter ${useMobileLayout ? 'text-3xl' : 'text-4xl md:text-6xl'}`}>
-                    Skills & Tools
-                </h2>
-            </div>
+            {/* Heading - Desktop Absolute */}
+            {!useMobileLayout && (
+                <div className="absolute z-30 pointer-events-auto top-10 left-6 md:top-16 md:left-16">
+                    <h2 className="font-black text-white/80 drop-shadow-2xl tracking-tighter text-5xl">
+                        Skills & Tools
+                    </h2>
+                </div>
+            )}
 
             {/* Mobile/Tablet Portrait: Show Orbital Constellation */}
             {useMobileLayout ? (
-                <div className={`w-full flex flex-col items-center justify-center ${isTabletPortrait ? 'mt-8 scale-125' : 'mt-16'}`}>
-                    <OrbitalSkills animateIcons={animateIcons} />
+                <div className={`w-full flex flex-col ${isTabletPortrait ? 'mt-8 scale-125' : ''}`}>
+                    <h2 className="font-black text-white/80 drop-shadow-2xl tracking-tighter text-3xl mb-6">
+                        Skills & Tools
+                    </h2>
+                    <div className="w-full flex items-center justify-center">
+                        <OrbitalSkills animateIcons={animateIcons} />
+                    </div>
                 </div>
             ) : (
                 <>

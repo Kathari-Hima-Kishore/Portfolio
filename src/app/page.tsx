@@ -3,6 +3,7 @@
 import SmoothScroll from '@/components/SmoothScroll'
 import { Loader } from '@/components/ui/Loader'
 import { PhaseIndicator } from '@/components/ui/PhaseIndicator'
+import { ProgressBar } from '@/components/ui/ProgressBar'
 import { useState, useEffect, Suspense, lazy } from 'react'
 import { useDeviceType } from '@/lib/device'
 import { SplinePlaceholder } from '@/components/ui/SplinePlaceholder'
@@ -16,6 +17,7 @@ const ExperienceSection = dynamic(() => import('@/components/sections/Experience
 const ProjectsSection = dynamic(() => import('@/components/sections/ProjectsSection').then(mod => mod.ProjectsSection))
 const ProjectsMoreSection = dynamic(() => import('@/components/sections/ProjectsMoreSection').then(mod => mod.ProjectsMoreSection))
 const EducationSection = dynamic(() => import('@/components/sections/EducationSection').then(mod => mod.EducationSection))
+const CertificationSection = dynamic(() => import('@/components/sections/CertificationSection').then(mod => mod.CertificationSection))
 const ContactSection = dynamic(() => import('@/components/sections/ContactSection').then(mod => mod.ContactSection))
 const StarryBackground = dynamic(() => import('@/components/StarryBackground').then(mod => mod.StarryBackground), { ssr: false })
 
@@ -25,11 +27,12 @@ const SplineBackgroundLazy = lazy(() => import('@/components/SplineBackground').
 const PHASES = [
   { id: 1, name: 'Introduction', title: 'Welcome' },
   { id: 2, name: 'Skills', title: 'Technical Arsenal' },
-  { id: 3, name: 'Experience', title: 'Professional Journey' },
-  { id: 4, name: 'Featured Project', title: 'Event Management System' },
-  { id: 5, name: 'More Projects', title: 'Additional Work' },
-  { id: 6, name: 'Education', title: 'Academic Background' },
-  { id: 7, name: 'Contact', title: 'Let\'s Connect' },
+  { id: 3, name: 'Certification', title: 'Microsoft Certified' },
+  { id: 4, name: 'Experience', title: 'Professional Journey' },
+  { id: 5, name: 'Featured Project', title: 'Event Management System' },
+  { id: 6, name: 'More Projects', title: 'Additional Work' },
+  { id: 7, name: 'Education', title: 'Academic Background' },
+  { id: 8, name: 'Contact', title: 'Let\'s Connect' },
 ] as const
 
 export default function Home() {
@@ -150,13 +153,18 @@ export default function Home() {
         </Suspense>
       )}
 
-      <PhaseIndicator phases={PHASES as any} activePhase={activePhase} />
+      {isReady && (isMobileLayout ? (
+        <ProgressBar />
+      ) : (
+        <PhaseIndicator phases={PHASES as any} activePhase={activePhase} />
+      ))}
 
       <StarryBackground />
 
       <main className={`relative z-10 canvas-overlay-mode flex flex-col pb-48 ${isMobileLayout ? 'gap-16 px-4' : 'gap-48 md:gap-72'}`}>
         <HeroSection isMobile={isMobileLayout} />
         <SkillsSection isMobile={isMobileLayout} />
+        <CertificationSection isMobile={isMobileLayout} />
         <ExperienceSection isMobile={isMobileLayout} />
         <ProjectsSection isMobile={isMobileLayout} />
         <ProjectsMoreSection isMobile={isMobileLayout} />

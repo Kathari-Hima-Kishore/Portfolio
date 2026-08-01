@@ -15,7 +15,7 @@ export const ContactSection = memo(function ContactSection({ isMobile = false }:
     }
 
     return (
-        <section id="phase-7" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-3' : 'p-8'}`}>
+        <section id="phase-8" className={`min-h-screen flex items-center justify-center ${isMobile ? 'p-3' : 'p-8'}`}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -23,7 +23,7 @@ export const ContactSection = memo(function ContactSection({ isMobile = false }:
                 variants={sectionVariants}
                 className="max-w-4xl w-full text-center pointer-events-auto"
             >
-                <h2 className={`font-black text-white mb-6 ${isMobile ? 'text-3xl' : 'text-5xl'}`}>Let&apos;s Connect</h2>
+                <h2 className={`font-black text-white mb-6 text-center ${isMobile ? 'text-3xl' : 'text-5xl'}`}>Let&apos;s Connect</h2>
                 <p className={`text-white/60 mb-12 max-w-2xl mx-auto ${isMobile ? 'text-lg' : 'text-xl'}`}>
                     I&apos;m currently looking for new opportunities as a Full Stack Cloud Engineer. Whether you have a question or just want to say hi, I&apos;ll be delighted to get back to you!
                 </p>
