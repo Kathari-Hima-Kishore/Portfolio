@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiExternalLink, FiDownload, FiX } from 'react-icons/fi'
 
-const RESUME_URL = '/Kathari_Hima_Kishore_SWE_Resume.pdf'
+const RESUME_URL = '/Kathari_Hima_Kishore_SWE_Resume.pdf?v=2'
 const RESUME_FILENAME = 'Kathari_Hima_Kishore_SWE_Resume.pdf'
 
 interface ResumeModalProps {
