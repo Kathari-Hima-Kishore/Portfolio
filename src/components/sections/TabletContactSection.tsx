@@ -35,18 +35,25 @@ export const TabletContactSection = memo(function TabletContactSection({ isPortr
         setIsSubmitting(true)
         setResult("Sending...")
 
-        const formData = new FormData(event.target as HTMLFormElement)
-        formData.append("access_key", "9949f8e2-47ee-4d5a-b815-dfa1c077ff77")
+        const form = event.target as HTMLFormElement
+        const data = {
+            name: (form.elements.namedItem("name") as HTMLInputElement).value,
+            email: (form.elements.namedItem("email") as HTMLInputElement).value,
+            message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+            access_key: "9949f8e2-47ee-4d5a-b815-dfa1c077ff77",
+        }
 
         try {
             const response = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
-                body: formData
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
             })
 
-            const data = await response.json()
+            const res = await response.json()
+            console.log("Web3Forms response:", res)
 
-            if (data.success) {
+            if (res.success) {
                 setResult("✓ Message sent successfully!")
                 ;(event.target as HTMLFormElement).reset()
                 setFieldValues({ name: '', email: '', message: '' })
@@ -55,9 +62,11 @@ export const TabletContactSection = memo(function TabletContactSection({ isPortr
                     setResult("")
                 }, 3000)
             } else {
-                setResult("Error. Please try again.")
+                console.error("Web3Forms error:", res)
+                setResult("Error: " + (res.message || "Please try again."))
             }
-        } catch {
+        } catch (error) {
+            console.error("Network error:", error)
             setResult("Network error. Please check connection.")
         } finally {
             setIsSubmitting(false)
