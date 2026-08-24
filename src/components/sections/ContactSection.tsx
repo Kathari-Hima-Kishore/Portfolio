@@ -50,9 +50,10 @@ export const ContactSection = memo(function ContactSection({ isMobile = false }:
         setResult("Sending...")
 
         const formData = new FormData(event.target as HTMLFormElement)
+        formData.append("access_key", "9949f8e2-47ee-4d5a-b815-dfa1c077ff77")
 
         try {
-            const response = await fetch("/api/contact", {
+            const response = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 body: formData
             })
@@ -64,14 +65,13 @@ export const ContactSection = memo(function ContactSection({ isMobile = false }:
                 ;(event.target as HTMLFormElement).reset()
                 setFieldValues({ name: '', email: '', message: '' })
                 
-                // Reset form with animation
                 setTimeout(() => {
                     setResult("")
                 }, 3000)
             } else {
                 setResult("Error. Please try again.")
             }
-        } catch (error) {
+        } catch {
             setResult("Network error. Please check connection.")
         } finally {
             setIsSubmitting(false)
