@@ -212,7 +212,7 @@ export const TabletContactSection = memo(function TabletContactSection({ isPortr
                                         >
                                             {isSubmitting ? (
                                                 <span className="flex items-center gap-2 z-10">
-                                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                                                     SENDING...
                                                 </span>
                                             ) : (

@@ -2,22 +2,27 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
     const formData = await request.formData()
-    formData.append("access_key", process.env.WEB3FORMS_ACCESS_KEY ?? "")
+    const data: Record<string, string> = {}
+    formData.forEach((value, key) => { data[key] = value as string })
+    data["access_key"] = process.env.WEB3FORMS_ACCESS_KEY ?? ""
 
     try {
         const response = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
-            body: formData
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
         })
 
-        const data = await response.json()
+        const result = await response.json()
 
-        if (data.success) {
+        if (result.success) {
             return NextResponse.json({ success: true })
         } else {
+            console.error("Web3Forms error:", result)
             return NextResponse.json({ success: false }, { status: 400 })
         }
-    } catch {
+    } catch (error) {
+        console.error("Contact API error:", error)
         return NextResponse.json({ success: false }, { status: 500 })
     }
 }
