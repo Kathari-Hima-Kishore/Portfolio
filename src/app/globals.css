@@ -415,6 +415,19 @@ body.lightbox-open .az-animate .cert-logo path.mark{
   transform: translateX(0) skewX(-15deg);
 }
 
+/* Fix hover text color - black on hover, white normally */
+.ghost-sweep-classic .txt,
+.ghost-sweep-classic span {
+  color: white !important;
+  fill: white !important;
+}
+
+.ghost-sweep-classic:hover .txt,
+.ghost-sweep-classic:hover span {
+  color: black !important;
+  fill: black !important;
+}
+
 /* Mobile-specific styles */
 @media (max-width: 1023px) {
   /* Reduce gap between sections on mobile */

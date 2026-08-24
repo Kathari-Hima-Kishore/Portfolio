@@ -5,10 +5,6 @@ import { useEffect, useState } from 'react'
 export type DeviceType = 'mobile' | 'tablet' | 'pc' | null
 export type DeviceOrientation = 'portrait' | 'landscape'
 
-// Breakpoints
-const MOBILE_MAX = 768
-const TABLET_MAX = 1024
-
 /**
  * Detects WebGL renderer type to check for hardware acceleration
  * Returns: 'hardware' | 'software' | 'none'
@@ -49,58 +45,75 @@ export function detectGPUAcceleration(): 'hardware' | 'software' | 'none' {
 }
 
 /**
- * Get device type based on screen width AND user agent/touch capabilities
- * More accurate detection for tablets and hybrid devices
+ * Detects the device type using a pixel-independent hybrid approach:
+ * 1. User-Agent string parsing (works in every browser, including Safari/Firefox)
+ * 2. navigator.maxTouchPoints for touch capability
+ * 3. (pointer: coarse) media query as tiebreaker — distinguishes
+ *    touch-primary devices (tablets) from touch laptops (fine pointer)
+ *
+ * Never uses screen/window pixel counts, so high-DPI small screens
+ * are classified correctly.
+ */
+/**
+ * Detects the device type using a pixel-independent hybrid approach:
+ * 1. User-Agent string parsing (works in every browser, including Safari/Firefox)
+ * 2. navigator.maxTouchPoints for touch capability
+ * 3. (pointer: coarse) media query as tiebreaker — distinguishes
+ *    touch-primary devices (tablets) from touch laptops (fine pointer)
+ *
+ * Real phones/tablets are ALWAYS classified by rules 1–3, never by pixels.
+ * Only browsers with zero touch capability (desktop PCs, viewport-resizer
+ * preview tools) fall through to a viewport-width check, so narrow windows
+ * get the simplified layout instead of an oversized full experience.
  */
 export function getDeviceType(): DeviceType {
   if (typeof window === 'undefined') return null
 
-  const width = window.innerWidth
-  const userAgent = navigator.userAgent.toLowerCase()
-  
-  // Check for mobile patterns in user agent
-  const isMobileUA = /mobile|iphone|ipod|android.*mobile|windows phone|blackberry|opera mini/i.test(userAgent)
-  const isTabletUA = /ipad|android(?!.*mobile)|tablet|kindle|silk|playbook/i.test(userAgent)
-  
-  // Check for touch capability (coarse pointer)
-  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  const ua = navigator.userAgent.toLowerCase()
+  const maxTouchPoints = navigator.maxTouchPoints || 0
+  const hasTouch = maxTouchPoints > 0 || 'ontouchstart' in window
+
+  // Modern iPads (iPadOS 13+) report as "Macintosh" in UA but expose multi-touch.
+  const isIPadOS = /macintosh/.test(ua) && maxTouchPoints > 1
+
+  // UA signature parsing — phones always include "Mobile", tablets never do
+  // (Android convention), plus explicit tablet identifiers.
+  const isMobileUA = /iphone|ipod|android.+mobile|windows phone|blackberry|opera mini|iemobile|webos/.test(ua)
+  const isTabletUA = /ipad|tablet|kindle|silk|playbook|android(?!.*mobile)/.test(ua)
+
+  if (isMobileUA) return 'mobile'
+  if (isTabletUA || isIPadOS) return 'tablet'
+
+  // No clear UA signature (Safari desktop-mode edge cases, etc.):
+  // a coarse primary pointer means a touch-primary device → tablet,
+  // while touch laptops keep a fine primary pointer (mouse/trackpad) → pc.
   const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches
-  
-  // If user agent says it's mobile, trust that
-  if (isMobileUA) {
-    return 'mobile'
-  }
-  
-  // If user agent says it's tablet, trust that
-  if (isTabletUA) {
-    return 'tablet'
-  }
-  
-  // For devices without clear UA signatures, use screen width + touch capability
-  if (width < MOBILE_MAX) {
-    return 'mobile'
-  } else if (width < TABLET_MAX) {
-    // If it has touch but width is tablet range, it's likely a tablet
-    if (hasTouch || hasCoarsePointer) {
-      return 'tablet'
-    }
-    return 'tablet'  // Default to tablet for this range
-  } else {
-    // Large screen (>= TABLET_MAX) but has touch? Likely a large tablet (iPad Pro, etc)
-    // Even if UA says Macintosh, if it has touch it's probably an iPad in desktop mode
-    if (hasTouch && hasCoarsePointer) {
-      return 'tablet'
-    }
-    return 'pc'
-  }
+  if (hasTouch && hasCoarsePointer) return 'tablet'
+
+  // Zero touch capability → genuine desktop browser (or viewport-resizer preview
+  // tool that doesn't emulate UA/touch).  Use viewport width as a layout fallback
+  // so narrow windows and tablet-landscape presets stay readable.
+  // Threshold 1280px = Tailwind "xl"; catches all iPad/tablet landscape sizes
+  // (1024–1194px) while still showing the full layout at normal desktop widths.
+  const width = window.innerWidth
+  if (width < 768) return 'mobile'
+  if (width < 1280) return 'tablet'
+
+  return 'pc'
 }
 
 /**
- * Get device orientation
+ * Get device orientation via the universally supported
+ * matchMedia('(orientation: portrait)') API.
  */
 export function getDeviceOrientation(): DeviceOrientation {
   if (typeof window === 'undefined') return 'landscape'
 
+  if (typeof window.matchMedia === 'function') {
+    return window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape'
+  }
+
+  // Ancient browser fallback
   return window.innerHeight > window.innerWidth ? 'portrait' : 'landscape'
 }
 
@@ -140,13 +153,27 @@ export function useDeviceType(): {
     // Initial detection
     updateDeviceInfo()
 
-    // Listen for resize and orientation changes
-    window.addEventListener('resize', updateDeviceInfo)
-    window.addEventListener('orientationchange', updateDeviceInfo)
+    // Real-time orientation changes via matchMedia — universally supported
+    const orientationMq = window.matchMedia('(orientation: portrait)')
+    const handleDeviceChange = () => updateDeviceInfo()
+
+    if (orientationMq.addEventListener) {
+      orientationMq.addEventListener('change', handleDeviceChange)
+    } else if ('addListener' in orientationMq) {
+      // Safari < 14 fallback
+      (orientationMq as unknown as { addListener: (cb: () => void) => void }).addListener(handleDeviceChange)
+    }
+
+    // Resize matters for the desktop-only viewport fallback
+    window.addEventListener('resize', handleDeviceChange)
 
     return () => {
-      window.removeEventListener('resize', updateDeviceInfo)
-      window.removeEventListener('orientationchange', updateDeviceInfo)
+      if (orientationMq.removeEventListener) {
+        orientationMq.removeEventListener('change', handleDeviceChange)
+      } else if ('removeListener' in orientationMq) {
+        (orientationMq as unknown as { removeListener: (cb: () => void) => void }).removeListener(handleDeviceChange)
+      }
+      window.removeEventListener('resize', handleDeviceChange)
     }
   }, [])
 
@@ -155,10 +182,10 @@ export function useDeviceType(): {
   const isPC = deviceType === 'pc'
 
   // Determine if Spline should load (defaults to false until ready to prevent hydration issues)
+  // Full 3D Spline runs on PC only — mobile AND tablet (any orientation) always use simplified
   const shouldLoad = (() => {
     if (!isReady) return false // Don't load Spline until we know the device type
-    if (isMobile) return false
-    if (isTablet && orientation === 'portrait') return false
+    if (isMobile || isTablet) return false
     return true
   })()
 
