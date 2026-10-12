@@ -128,145 +128,149 @@ export const ContactSection = memo(function ContactSection({ isMobile = false }:
                         <motion.div 
                             className={`brutal-card p-6 md:p-8 transition-all duration-300`}
                         >
-                        {/* Animated Grid Background */}
-                        <motion.div 
-                            className="absolute inset-0 -z-10 brutal-grid"
-                            animate={{ 
-                                opacity: [0.1, 0.2, 0.1],
-                                scale: [1, 1.02, 1]
-                            }}
-                            transition={{ 
-                                duration: 3, 
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                            }}
-                        />
+                            {/* Animated Grid Background */}
+                            <motion.div 
+                                className="absolute inset-0 -z-10 brutal-grid"
+                                animate={{ 
+                                    opacity: [0.1, 0.2, 0.1],
+                                    scale: [1, 1.02, 1]
+                                }}
+                                transition={{ 
+                                    duration: 3, 
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                            />
 
-                        {/* Glowing corner accents */}
-                        <motion.div 
-                            className="absolute top-4 left-4 w-3 h-3 bg-accent rounded-sm"
-                            animate={{ opacity: [0.3, 0.7, 0.3] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                        />
-                        <motion.div 
-                            className="absolute top-4 right-4 w-3 h-3 bg-accent rounded-sm"
-                            animate={{ opacity: [0.7, 0.3, 0.7] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                        />
-                        <motion.div 
-                            className="absolute bottom-4 left-4 w-3 h-3 bg-accent rounded-sm"
-                            animate={{ opacity: [0.5, 0.8, 0.5] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-                        />
-                        <motion.div 
-                            className="absolute bottom-4 right-4 w-3 h-3 bg-accent rounded-sm"
-                            animate={{ opacity: [0.8, 0.4, 0.8] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
-                        />
-
-                        <form onSubmit={onSubmit} className="space-y-6">
-                            {/* Name & Email Fields */}
-                            <div className="grid gap-6 md:grid-cols-2">
-                                {/* Name Field */}
-                                <div className="text-left">
-                                    <label
-                                        htmlFor="name"
-                                        className="block text-white/60 mb-2 uppercase tracking-widest text-xs font-bold"
-                                    >
-                                        NAME
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        required
-                                        value={fieldValues.name}
-                                        onChange={(e) => handleInputChange('name', e.target.value)}
-                                        className="w-full bg-black/50 border-2 border-white rounded-none px-4 py-3 text-white font-bold focus:outline-none focus:border-accent"
-                                        placeholder="Enter your name"
+                            {/* Glowing corner accents — hidden on mobile */}
+                            {!useMobileLayout && (
+                                <>
+                                    <motion.div 
+                                        className="absolute top-4 left-4 w-3 h-3 bg-accent rounded-sm"
+                                        animate={{ opacity: [0.3, 0.7, 0.3] }}
+                                        transition={{ duration: 2, repeat: Infinity }}
                                     />
-                                </div>
-                                
-                                {/* Email Field */}
-                                <div className="text-left">
-                                    <label
-                                        htmlFor="email"
-                                        className="block text-white/60 mb-2 uppercase tracking-widest text-xs font-bold"
-                                    >
-                                        EMAIL
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        required
-                                        value={fieldValues.email}
-                                        onChange={(e) => handleInputChange('email', e.target.value)}
-                                        className="w-full bg-black/50 border-2 border-white rounded-none px-4 py-3 text-white font-bold focus:outline-none focus:border-accent"
-                                        placeholder="your.email@example.com"
+                                    <motion.div 
+                                        className="absolute top-4 right-4 w-3 h-3 bg-accent rounded-sm"
+                                        animate={{ opacity: [0.7, 0.3, 0.7] }}
+                                        transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
                                     />
-                                </div>
-                            </div>
-                            
-                            {/* Message Field */}
-                            <div className="text-left">
-                                <label
-                                    htmlFor="message"
-                                    className="block text-white/60 mb-2 uppercase tracking-widest text-xs font-bold"
-                                >
-                                    MESSAGE
-                                </label>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    required
-                                    rows={4}
-                                    value={fieldValues.message}
-                                    onChange={(e) => handleInputChange('message', e.target.value)}
-                                    className="w-full bg-black/50 border-2 border-white rounded-none px-4 py-3 text-white font-bold focus:outline-none focus:border-accent resize-none"
-                                    placeholder="Share your thoughts or opportunity details..."
-                                />
-                            </div>
+                                    <motion.div 
+                                        className="absolute bottom-4 left-4 w-3 h-3 bg-accent rounded-sm"
+                                        animate={{ opacity: [0.5, 0.8, 0.5] }}
+                                        transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                                    />
+                                    <motion.div 
+                                        className="absolute bottom-4 right-4 w-3 h-3 bg-accent rounded-sm"
+                                        animate={{ opacity: [0.8, 0.4, 0.8] }}
+                                        transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
+                                    />
+                                </>
+                            )}
 
-                            {/* Submit Section */}
-                            <div className="pt-4 border-t border-white/20">
-                                <div className="flex items-center justify-start gap-4">
-                                    <button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        className="ghost-sweep ghost-sweep-classic px-6 py-2.5 text-sm uppercase tracking-widest font-black relative overflow-hidden"
-                                    >
-                                        {isSubmitting ? (
-                                            <span className="flex items-center gap-2 z-10">
-                                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                                SENDING...
-                                            </span>
-                                        ) : (
-                                            <span className="flex items-center gap-2 z-10">
-                                                <FaPaperPlane />
-                                                SEND MESSAGE
-                                                <FaArrowRight size={14} />
-                                            </span>
-                                        )}
-                                    </button>
-                                </div>
-                                
-                                {/* Result Message */}
-                                {result && (
-                                    <div className={`mt-4 text-sm font-bold uppercase tracking-widest ${
-                                        result.includes('✓') 
-                                            ? 'text-green-400' 
-                                            : result.includes('Error') 
-                                            ? 'text-red-400' 
-                                            : 'text-accent-light'
-                                    }`}>
-                                        {result}
+                            <form onSubmit={onSubmit} className="space-y-6">
+                                {/* Name & Email Fields */}
+                                <div className="grid gap-6 md:grid-cols-2">
+                                    {/* Name Field */}
+                                    <div className="text-left">
+                                        <label
+                                            htmlFor="name"
+                                            className="block text-white/60 mb-2 uppercase tracking-widest text-xs font-bold"
+                                        >
+                                            NAME
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            required
+                                            value={fieldValues.name}
+                                            onChange={(e) => handleInputChange('name', e.target.value)}
+                                            className="w-full bg-black/50 border-2 border-white rounded-none px-4 py-3 text-white font-bold focus:outline-none focus:border-accent"
+                                            placeholder="Enter your name"
+                                        />
                                     </div>
-                                )}
-                            </div>
-                        </form>
+                                
+                                    {/* Email Field */}
+                                    <div className="text-left">
+                                        <label
+                                            htmlFor="email"
+                                            className="block text-white/60 mb-2 uppercase tracking-widest text-xs font-bold"
+                                        >
+                                            EMAIL
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            required
+                                            value={fieldValues.email}
+                                            onChange={(e) => handleInputChange('email', e.target.value)}
+                                            className="w-full bg-black/50 border-2 border-white rounded-none px-4 py-3 text-white font-bold focus:outline-none focus:border-accent"
+                                            placeholder="your.email@example.com"
+                                        />
+                                    </div>
+                                </div>
+                            
+                                {/* Message Field */}
+                                <div className="text-left">
+                                    <label
+                                        htmlFor="message"
+                                        className="block text-white/60 mb-2 uppercase tracking-widest text-xs font-bold"
+                                    >
+                                        MESSAGE
+                                    </label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        required
+                                        rows={4}
+                                        value={fieldValues.message}
+                                        onChange={(e) => handleInputChange('message', e.target.value)}
+                                        className="w-full bg-black/50 border-2 border-white rounded-none px-4 py-3 text-white font-bold focus:outline-none focus:border-accent resize-none"
+                                        placeholder="Share your thoughts or opportunity details..."
+                                    />
+                                </div>
+
+                                {/* Submit Section */}
+                                <div className="pt-4 border-t border-white/20">
+                                    <div className="flex items-center justify-start gap-4">
+                                        <button
+                                            type="submit"
+                                            disabled={isSubmitting}
+                                            className="ghost-sweep ghost-sweep-classic px-6 py-2.5 text-sm uppercase tracking-widest font-black relative overflow-hidden"
+                                        >
+                                            {isSubmitting ? (
+                                                <span className="flex items-center gap-2 z-10">
+                                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                                    SENDING...
+                                                </span>
+                                            ) : (
+                                                <span className="flex items-center gap-2 z-10">
+                                                    <FaPaperPlane />
+                                                    SEND MESSAGE
+                                                    <FaArrowRight size={14} />
+                                                </span>
+                                            )}
+                                        </button>
+                                    </div>
+                                
+                                    {/* Result Message */}
+                                    {result && (
+                                        <div className={`mt-4 text-sm font-bold uppercase tracking-widest ${
+                                            result.includes('✓') 
+                                                ? 'text-green-400' 
+                                                : result.includes('Error') 
+                                                ? 'text-red-400' 
+                                                : 'text-accent-light'
+                                        }`}>
+                                            {result}
+                                        </div>
+                                    )}
+                                </div>
+                            </form>
+                        </motion.div>
                     </motion.div>
-                </motion.div>
                 </div>
 
                 {/* Social Links */}
