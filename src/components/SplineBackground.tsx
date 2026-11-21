@@ -195,7 +195,10 @@ export const SplineBackground = memo(function SplineBackground({
 
     if (pastHero) {
       // Match the hero resting state instantly; the scrub takes over below.
-      gsap.set(wrapper, { opacity: 1, scale: 0.60, x: '25%' })
+      // Fade the scene in instead of snapping it to full opacity, so a
+      // remount (e.g. jumping back from a later section) never pops.
+      gsap.set(wrapper, { scale: 0.60, x: '25%' })
+      gsap.fromTo(wrapper, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power1.out' })
     }
 
     // Idle float — simpler on medium (no rotation to save compositor work)
@@ -269,10 +272,18 @@ export const SplineBackground = memo(function SplineBackground({
         end: 'top 40%',   // Fade over longer distance
         scrub: 1.5,       // Very smooth scrub
         animation: gsap.to(container, { opacity: 0, ease: 'power2.out' }),
-        onLeave: () => { container.style.visibility = 'hidden' },
+        onLeave: () => {
+          container.style.visibility = 'hidden'
+          // Stop the WebGL render loop while the scene is invisible so it
+          // doesn't cost frames during the Projects section.
+          splineInstanceRef.current?.stop?.()
+        },
         // Let the scrubbed fade drive opacity on the way back up; setting it
         // to 1 here caused a flash before the scrub restored the real value.
-        onEnterBack: () => { container.style.visibility = 'visible' },
+        onEnterBack: () => {
+          container.style.visibility = 'visible'
+          splineInstanceRef.current?.play?.()
+        },
       }),
     )
 

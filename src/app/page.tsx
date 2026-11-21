@@ -122,8 +122,11 @@ export default function Home() {
   // Determine if we should use mobile layout - both mobile AND tablet always use simplified view
   const isMobileLayout = isMobile || isTablet
 
-  // Show Spline during Hero (phase 1) and Skills (phase 2) sections
-  const showSpline = (activePhase === 1 || activePhase === 2) && !isMobileLayout
+  // Show Spline during Hero (phase 1) and Skills (phase 2). It stays mounted
+  // through Projects (phase 3) so scrolling back up to Skills doesn't have to
+  // reload the whole 3D scene (which took ~1s and popped in at full size).
+  // The scene is fully faded out and its render loop is stopped while hidden.
+  const showSpline = activePhase <= 3 && !isMobileLayout
 
   // On desktop, show "Loading 3D Experience" overlay until Spline actually loads
   // Only show during initial load or when Spline is active (phases 1-2) to avoid
