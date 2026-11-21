@@ -32,7 +32,7 @@ const skillNodes: SkillNode[] = [
     color: 'from-blue-500 to-cyan-400',
     glowColor: 'rgba(59, 130, 246, 0.5)',
     skills: ['HTML & CSS', 'JavaScript', 'React.js', 'Spline'],
-    angle: 180, // West (left)
+    angle: 150, // South-West (bottom left)
   },
   {
     id: 'backend',
@@ -41,16 +41,26 @@ const skillNodes: SkillNode[] = [
     color: 'from-green-500 to-emerald-400',
     glowColor: 'rgba(16, 185, 129, 0.5)',
     skills: ['Python', 'Node.js', 'SQL'],
-    angle: 0, // East (right)
+    angle: 30, // South-East (bottom right)
   },
 ]
 
+// Equilateral triangle: nodes sit 120° apart so the gap between every pair of
+// tiles is identical (r * √3). The stage is scaled as a whole so the layout
+// looks the same on a small phone and a large tablet.
+const ORBIT_RADIUS = 120
+const STAGE_W = 360
+const STAGE_H = 400
+
+const radians = (deg: number) => (deg * Math.PI) / 180
+const R = ORBIT_RADIUS * Math.cos(radians(30)) // ≈ 103.9
+
 // Static positions for SSR to prevent hydration mismatch
-// Order: Cloud (N), Frontend (W), Backend (E)
+// Order: Cloud (N), Frontend (SW), Backend (SE)
 const STATIC_POSITIONS = [
-  { x: 0, y: -120 },   // Cloud - North (top)
-  { x: -120, y: 0 },   // Frontend - West (left)
-  { x: 120, y: 0 },    // Backend - East (right)
+  { x: 0, y: -ORBIT_RADIUS }, // Cloud - North (top)
+  { x: -R, y: ORBIT_RADIUS / 2 }, // Frontend - South-West (bottom left)
+  { x: R, y: ORBIT_RADIUS / 2 }, // Backend - South-East (bottom right)
 ]
 
 export function OrbitalSkills({ animateIcons }: { animateIcons?: boolean }) {
@@ -58,20 +68,50 @@ export function OrbitalSkills({ animateIcons }: { animateIcons?: boolean }) {
   const [rotation, setRotation] = useState(0)
   const [isClient, setIsClient] = useState(false)
   const [nodePositions, setNodePositions] = useState(STATIC_POSITIONS)
-
-  const orbitRadius = 120 // Distance from center
+  const [scale, setScale] = useState(1)
+  const hostRef = useRef<HTMLDivElement>(null)
 
   // Fix hydration: only calculate positions on client side
   useEffect(() => {
     setIsClient(true)
     const positions = skillNodes.map((node) => {
-      const rad = (node.angle * Math.PI) / 180
+      const rad = radians(node.angle)
       return {
-        x: Math.cos(rad) * orbitRadius,
-        y: Math.sin(rad) * orbitRadius,
+        x: Math.cos(rad) * ORBIT_RADIUS,
+        y: Math.sin(rad) * ORBIT_RADIUS,
       }
     })
     setNodePositions(positions)
+  }, [])
+
+  // Fit the whole constellation to the space it is given: never wider than the
+  // column, and never taller than ~70% of the viewport (leaves room for the
+  // heading). This is what keeps the phone and both tablet orientations
+  // proportionally the same instead of one fixed 400px block.
+  useEffect(() => {
+    const el = hostRef.current
+    if (!el) return
+
+    const compute = () => {
+      const width = el.clientWidth || window.innerWidth
+      const height = window.innerHeight
+      const byWidth = width / STAGE_W
+      const byHeight = (height * 0.7) / STAGE_H
+      const next = Math.min(byWidth, byHeight, 1.7)
+      setScale(Math.round(Math.max(next, 0.55) * 100) / 100)
+    }
+
+    compute()
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(compute) : null
+    observer?.observe(el)
+    window.addEventListener('resize', compute)
+    window.addEventListener('orientationchange', compute)
+
+    return () => {
+      observer?.disconnect()
+      window.removeEventListener('resize', compute)
+      window.removeEventListener('orientationchange', compute)
+    }
   }, [])
 
   // Close expanded node when clicking/tapping outside the card
@@ -110,23 +150,36 @@ export function OrbitalSkills({ animateIcons }: { animateIcons?: boolean }) {
   }
 
   return (
-    <div className="relative w-full h-[400px] flex items-center justify-center">
-      {/* Orbital ring - static for SSR */}
+    <div
+      ref={hostRef}
+      className="relative w-full flex justify-center"
+      style={{ height: STAGE_H * scale }}
+    >
       <div
-        className="absolute w-[280px] h-[280px] rounded-full border border-white/10"
+        className="relative flex items-center justify-center"
         style={{
-          background: 'radial-gradient(circle, rgba(108, 92, 231, 0.1) 0%, transparent 70%)',
+          width: STAGE_W,
+          height: STAGE_H,
+          transform: `scale(${scale})`,
+          transformOrigin: 'top center',
         }}
-      />
-
-      {/* Animated ring decoration - client only */}
-      {isClient && (
-        <motion.div
-          className="absolute w-[300px] h-[300px] rounded-full border-2 border-dashed border-white/5"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+      >
+        {/* Orbital ring - static for SSR */}
+        <div
+          className="absolute w-[280px] h-[280px] rounded-full border border-white/10"
+          style={{
+            background: 'radial-gradient(circle, rgba(108, 92, 231, 0.1) 0%, transparent 70%)',
+          }}
         />
-      )}
+
+        {/* Animated ring decoration - client only */}
+        {isClient && (
+          <motion.div
+            className="absolute w-[300px] h-[300px] rounded-full border-2 border-dashed border-white/5"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+          />
+        )}
 
       {/* Skill nodes */}
       {skillNodes.map((node, index) => {
@@ -298,6 +351,7 @@ export function OrbitalSkills({ animateIcons }: { animateIcons?: boolean }) {
         </defs>
       </svg>
       )}
+      </div>
     </div>
   )
 }

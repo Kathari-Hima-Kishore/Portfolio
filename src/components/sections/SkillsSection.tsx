@@ -15,11 +15,10 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
     const [showSkillsList, setShowSkillsList] = useState(false)
     const [animateIcons, setAnimateIcons] = useState(false)
     const sectionRef = useRef<HTMLElement>(null)
-    const { deviceType, orientation } = useDeviceType()
+    const { deviceType } = useDeviceType()
     
     // Tablet (any orientation) and mobile always use the simplified layout
     const isTablet = deviceType === 'tablet'
-    const isTabletPortrait = isTablet && orientation === 'portrait'
     const useMobileLayout = isMobile || isTablet
 
     // Mobile: trigger icon animation when section enters viewport
@@ -65,16 +64,16 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
 
             {/* Mobile/Tablet Portrait: Show Orbital Constellation */}
             {useMobileLayout ? (
-                <div className={`w-full flex flex-col ${isTabletPortrait ? 'mt-8' : ''}`}>
+                <div className="w-full flex-1 flex flex-col justify-center">
                     <motion.h2 
-                        className="font-black text-white/80 drop-shadow-2xl tracking-tighter text-3xl mb-6"
+                        className="font-black text-white/80 drop-shadow-2xl tracking-tighter text-3xl mb-2"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        Skills & Tools
+                        Skills &amp; Tools
                     </motion.h2>
-                    <div className={`w-full flex items-center justify-center ${isTabletPortrait ? 'scale-110' : ''}`}>
+                    <div className="w-full flex items-center justify-center">
                         <OrbitalSkills animateIcons={animateIcons} />
                     </div>
                 </div>

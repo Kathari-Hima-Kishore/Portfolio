@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
+import { getDeviceType } from '@/lib/device'
 
 /**
  * ScaleWrapper — adaptive layout for non-1440px screens.
@@ -11,9 +12,13 @@ import { useEffect, useState, useRef } from 'react'
  *          blurry text due to sub-pixel scaling.
  *
  * New approach:
- * - 1440px+   → No wrapper at all (passthrough)
- * - 1024-1439 → CSS zoom (browser-native, integer-aware, no compositing)
- * - <1024     → No scaling for mobile/tablet
+ * - PC only, 1024-1439 → CSS zoom (browser-native, integer-aware, no compositing)
+ * - Everything else    → No wrapper at all (passthrough)
+ *
+ * Phones and tablets (both orientations) use the simplified responsive
+ * layout, where zooming the whole page shrinks `min-h-screen` sections
+ * inside the real viewport (100vh keeps its value, then gets scaled),
+ * leaving dead space below the content. So zoom is desktop-only.
  *
  * CSS zoom is read-only composited at paint time — zero extra GPU layer.
  */
@@ -26,7 +31,9 @@ export const ScaleWrapper = ({ children }: { children: React.ReactNode }) => {
             const w = window.innerWidth
             const BASE = 1440
 
-            if (w < BASE && w >= 1024) {
+            // Only genuine desktop screens scale. Mobile/tablet keep the
+            // natural viewport so 100vh sections fill the screen edge to edge.
+            if (getDeviceType() === 'pc' && w < BASE && w >= 1024) {
                 // Round to 2 decimal places to avoid triggering repaint on micro changes
                 setZoom(Math.round((w / BASE) * 100) / 100)
             } else {

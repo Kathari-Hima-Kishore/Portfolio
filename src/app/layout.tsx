@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 import { DeviceHandler } from '@/components/ui/DeviceHandler'
 import { ScaleWrapper } from '@/components/ui/ScaleWrapper'
 import { MobileNotice } from '@/components/ui/MobileNotice'
+import { RotateNotice } from '@/components/ui/RotateNotice'
 import { Analytics } from '@vercel/analytics/next'
 
 const SITE_URL = 'https://kathari-hima-kishore.tech'
@@ -122,6 +123,7 @@ export default function RootLayout({
       <body className={`${inter.className} bg-bg text-text overflow-x-hidden`}>
         <Analytics />
         <MobileNotice />
+        <RotateNotice />
         <DeviceHandler>
           <ScaleWrapper>
             {children}
