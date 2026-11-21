@@ -178,12 +178,25 @@ export const SplineBackground = memo(function SplineBackground({
     triggersRef.current.forEach(t => t.kill())
     triggersRef.current = []
 
-    // Phase 1 entrance
-    gsap.fromTo(
-      wrapper,
-      { opacity: 0, scale: 0.1, x: '25%' },
-      { opacity: 1, scale: 0.60, x: '25%', duration: 1.2, ease: 'power1.out', delay: 0.2 },
-    )
+    // Detect a remount while the page is already scrolled past the hero
+    // (e.g. scrolling back up from a later section). Replaying the entrance
+    // from scale 0.1 would pop; the scroll trigger below positions the scene.
+    const phase1 = document.getElementById('phase-1')
+    const pastHero = phase1 ? phase1.getBoundingClientRect().bottom <= 0 : false
+
+    // Phase 1 entrance (first load only)
+    const entrance = pastHero
+      ? null
+      : gsap.fromTo(
+          wrapper,
+          { opacity: 0, scale: 0.1, x: '25%' },
+          { opacity: 1, scale: 0.60, x: '25%', duration: 1.2, ease: 'power1.out', delay: 0.2 },
+        )
+
+    if (pastHero) {
+      // Match the hero resting state instantly; the scrub takes over below.
+      gsap.set(wrapper, { opacity: 1, scale: 0.60, x: '25%' })
+    }
 
     // Idle float — simpler on medium (no rotation to save compositor work)
     // Use a separate timeline that can be smoothly scrubbed
@@ -223,12 +236,15 @@ export const SplineBackground = memo(function SplineBackground({
       }),
     )
 
-    // Phase 1→2 scrub — smooth transition from hero centered to full width
-    // Use a smoother scrub and add intermediate keyframes for fluid motion
+    // Phase 1→2 scrub — one continuous transition in BOTH directions.
+    // It ends exactly at the full-size resting state (scale 1, x 0%), so
+    // reaching the Skills section never causes a hard snap. The previous
+    // onEnter/onLeaveBack gsap.set() calls fought this scrub and produced
+    // the "enlarge then snap" / "zoom in then slide sideways" glitches.
     const phase1To2Tween = gsap.fromTo(
       wrapper,
       { scale: 0.60, x: '25%' },
-      { scale: 0.8, x: '0%', ease: 'none' } // Use 'none' for scrubbed animations
+      { scale: 1, x: '0%', ease: 'none' }
     )
 
     triggersRef.current.push(
@@ -236,24 +252,12 @@ export const SplineBackground = memo(function SplineBackground({
         trigger: '#phase-2',
         start: 'top bottom',
         end: 'top center',
-        scrub: 1, // Higher scrub value for smoother, more gradual transition
+        scrub: 1,
         animation: phase1To2Tween,
-      }),
-    )
-
-    // Phase 2 - keep object visible and full size during Skills section
-    triggersRef.current.push(
-      ScrollTrigger.create({
-        trigger: '#phase-2',
-        start: 'top center',
-        end: 'bottom center',
-        onEnter: () => {
-          gsap.set(wrapper, { scale: 1, x: '0%', opacity: 1 })
-        },
-        onLeaveBack: () => {
-          // When scrolling back to Phase 2 from Phase 3
-          gsap.set(wrapper, { scale: 1, x: '0%', opacity: 1 })
-        },
+        // Hand control from the entrance animation to the scrub the moment
+        // the user actually reaches the transition, in either direction.
+        onEnter: () => entrance?.kill(),
+        onEnterBack: () => entrance?.kill(),
       }),
     )
 
@@ -266,14 +270,14 @@ export const SplineBackground = memo(function SplineBackground({
         scrub: 1.5,       // Very smooth scrub
         animation: gsap.to(container, { opacity: 0, ease: 'power2.out' }),
         onLeave: () => { container.style.visibility = 'hidden' },
-        onEnterBack: () => { 
-          container.style.visibility = 'visible'
-          gsap.set(container, { opacity: 1 })
-        },
+        // Let the scrubbed fade drive opacity on the way back up; setting it
+        // to 1 here caused a flash before the scrub restored the real value.
+        onEnterBack: () => { container.style.visibility = 'visible' },
       }),
     )
 
     return () => {
+      entrance?.kill()
       idleFloat.pause()
       idleFloatTimeline.kill()
       triggersRef.current.forEach(t => t.kill())
