@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback, cloneElement, isValidElement } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaTimes } from 'react-icons/fa'
-import { MobileFrontendIcon, MobileBackendIcon, MobileCloudIcon, MobileToolsIcon } from '@/components/ui/SkillIcons'
+import { MobileFrontendIcon, MobileBackendIcon, MobileCloudIcon } from '@/components/ui/SkillIcons'
 
 interface SkillNode {
   id: string
@@ -22,7 +22,7 @@ const skillNodes: SkillNode[] = [
     icon: <MobileCloudIcon />,
     color: 'from-purple-500 to-violet-400',
     glowColor: 'rgba(139, 92, 246, 0.5)',
-    skills: ['Microsoft Azure', 'Google Firebase', 'Docker', 'Git/GitHub'],
+    skills: ['Microsoft Azure', 'AWS', 'Google Firebase', 'Docker'],
     angle: 270, // North (top)
   },
   {
@@ -31,7 +31,7 @@ const skillNodes: SkillNode[] = [
     icon: <MobileFrontendIcon />,
     color: 'from-blue-500 to-cyan-400',
     glowColor: 'rgba(59, 130, 246, 0.5)',
-    skills: ['HTML & CSS', 'JavaScript', 'React.js', 'Next.js', 'Spline'],
+    skills: ['HTML & CSS', 'JavaScript', 'React.js', 'Spline'],
     angle: 180, // West (left)
   },
   {
@@ -43,24 +43,14 @@ const skillNodes: SkillNode[] = [
     skills: ['Python', 'Node.js', 'SQL'],
     angle: 0, // East (right)
   },
-  {
-    id: 'tools',
-    name: 'API Testing & Tools',
-    icon: <MobileToolsIcon />,
-    color: 'from-orange-500 to-amber-400',
-    glowColor: 'rgba(245, 158, 11, 0.5)',
-    skills: ['Beeceptor', 'Jira', 'Miro'],
-    angle: 90, // South (bottom)
-  },
 ]
 
 // Static positions for SSR to prevent hydration mismatch
-// Order: Cloud (N), Frontend (W), Backend (E), Tools (S)
+// Order: Cloud (N), Frontend (W), Backend (E)
 const STATIC_POSITIONS = [
   { x: 0, y: -120 },   // Cloud - North (top)
   { x: -120, y: 0 },   // Frontend - West (left)
   { x: 120, y: 0 },    // Backend - East (right)
-  { x: 0, y: 120 },    // Tools - South (bottom)
 ]
 
 export function OrbitalSkills({ animateIcons }: { animateIcons?: boolean }) {

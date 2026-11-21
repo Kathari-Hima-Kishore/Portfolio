@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { memo, useEffect, useRef, useState } from 'react'
-import { DesktopFrontendIcon, DesktopBackendIcon, DesktopCloudIcon, DesktopToolsIcon } from '@/components/ui/SkillIcons'
+import { DesktopFrontendIcon, DesktopBackendIcon, DesktopCloudIcon } from '@/components/ui/SkillIcons'
 import { CubeButton } from '@/components/ui/CubeButton'
 import { OrbitalSkills } from '@/components/ui/OrbitalSkills'
 import { useDeviceType } from '@/lib/device'
@@ -98,16 +98,15 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
                                     exit={{ opacity: 0, scale: 0.9, backdropFilter: "blur(0px)" }}
                                     className={`w-full bg-surface/80 border border-white/10 rounded-3xl pointer-events-auto shadow-2xl backdrop-blur-xl ${useMobileLayout ? 'p-4 max-w-full' : 'p-6 md:p-12 max-w-6xl'}`}
                                 >
-                                    <div className={`grid gap-6 ${useMobileLayout ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'}`}>
+                                    <div className={`grid gap-6 ${useMobileLayout ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
                                         {/* Frontend */}
                                         <div className="brutal-card p-6 rounded-2xl group">
                                             <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 text-blue-400 text-2xl group-hover:scale-110 transition-transform"><DesktopFrontendIcon animate={animateIcons} loop /></div>
                                             <h4 className="text-xl font-bold text-white mb-3">Frontend</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
-                                                <li>HTML & CSS</li>
-                                                <li>Javascript</li>
+                                                <li>HTML &amp; CSS</li>
+                                                <li>JavaScript</li>
                                                 <li>React.js</li>
-                                                <li>Next.js</li>
                                                 <li>Spline</li>
                                             </ul>
                                         </div>
@@ -115,7 +114,7 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
                                         {/* Backend */}
                                         <div className="brutal-card p-6 rounded-2xl group">
                                             <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4 text-green-400 text-2xl group-hover:scale-110 transition-transform"><DesktopBackendIcon animate={animateIcons} loop /></div>
-                                            <h4 className="text-xl font-bold text-white mb-3">Backend & Database</h4>
+                                            <h4 className="text-xl font-bold text-white mb-3">Backend &amp; Database</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>Python</li>
                                                 <li>Node.js</li>
@@ -126,24 +125,12 @@ export const SkillsSection = memo(function SkillsSection({ isMobile = false }: S
                                         {/* Cloud */}
                                         <div className="brutal-card-accent p-6 rounded-2xl group">
                                             <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4 text-purple-400 text-2xl group-hover:scale-110 transition-transform"><DesktopCloudIcon animate={animateIcons} loop /></div>
-                                            <h4 className="text-xl font-bold text-white mb-3">Cloud & DevOps</h4>
+                                            <h4 className="text-xl font-bold text-white mb-3">Cloud &amp; DevOps</h4>
                                             <ul className="space-y-2 text-white/60 text-sm">
                                                 <li>Microsoft Azure</li>
+                                                <li>AWS</li>
                                                 <li>Google Firebase</li>
                                                 <li>Docker</li>
-                                                <li>Git/Github</li>
-                                            </ul>
-                                        </div>
-
-                                        {/* Tools */}
-                                        <div className="brutal-card p-6 rounded-2xl group">
-                                            <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mb-4 text-orange-400 text-2xl group-hover:scale-110 transition-transform"><DesktopToolsIcon animate={animateIcons} loop /></div>
-                                            <h4 className="text-xl font-bold text-white mb-3">API & Tools</h4>
-                                            <ul className="space-y-2 text-white/60 text-sm">
-                                                <li>Beeceptor</li>
-                                                
-                                                <li>Jira</li>
-                                                <li>Miro</li>
                                             </ul>
                                         </div>
                                     </div>
