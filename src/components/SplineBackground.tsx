@@ -37,7 +37,6 @@ interface SplineBackgroundProps {
   onLoaded?: () => void
 }
 
-
 export const SplineBackground = memo(function SplineBackground({
   isLoading,
   activePhase,
@@ -126,15 +125,33 @@ export const SplineBackground = memo(function SplineBackground({
     return () => clearInterval(interval)
   }, [audioEnabled])
 
+  // Apply the renderer quality settings. Returns true if the WebGL renderer
+  // was found and configured. Split out so it can be retried if the runtime
+  // hasn't finished wiring `_renderer` yet when `onLoad` first fires.
+  const applyRendererQuality = useCallback((splineApp: any) => {
+    try {
+      // The runtime exposes its renderer as `_renderer` (there is no public
+      // `renderer` getter). Falling back to `renderer` guards future versions.
+      const renderer = splineApp?._renderer || splineApp?.renderer
+      if (!renderer) return false
+
+      // Halve the transmission (glass) render target. This is the main GPU
+      // win and it does NOT touch the canvas/drawing-buffer resolution, so
+      // the scene stays at the device's full native pixel ratio.
+      try { renderer.hdTransmission = false } catch { }
+
+      return true
+    } catch (err) {
+      console.error('Spline config error:', err)
+      return false
+    }
+  }, [])
+
   // Spline onLoad
   const onLoad = useCallback((splineApp: any) => {
     splineInstanceRef.current = splineApp
     try {
-      // Reduce pixel ratio for medium tier — halves WebGL fill rate
-      const renderer = splineApp?.renderer
-      if (renderer && tier === 'medium') {
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1))
-      }
+      applyRendererQuality(splineApp)
 
       // Disable costly orbit controls
       const controls = splineApp?._orbitControls || splineApp?._controls
@@ -147,7 +164,7 @@ export const SplineBackground = memo(function SplineBackground({
       }
 
       // Stop canvas from stealing focus
-      const canvas = renderer?.domElement as HTMLCanvasElement | undefined
+      const canvas = (splineApp?.canvas || splineApp?._renderer?.domElement) as HTMLCanvasElement | undefined
       if (canvas) {
         canvas.setAttribute('tabindex', '-1')
         canvas.style.outline = 'none'
@@ -157,7 +174,30 @@ export const SplineBackground = memo(function SplineBackground({
     }
     setIsLoaded(true)
     onLoaded?.()
-  }, [tier, onLoaded])
+  }, [applyRendererQuality, onLoaded])
+
+  // If `onLoad` fires before the runtime has wired up `_renderer` (rare), keep
+  // retrying briefly so the quality settings still land. The runtime's own
+  // resize path preserves renderer settings afterwards, so no resize hook is
+  // needed.
+  useEffect(() => {
+    if (!isLoaded) return
+    const app = splineInstanceRef.current
+    if (!app) return
+
+    const timers: ReturnType<typeof setTimeout>[] = []
+    let tries = 0
+    const tryApply = () => {
+      tries++
+      const ok = applyRendererQuality(app)
+      if (!ok && tries < 8) timers.push(setTimeout(tryApply, 250))
+    }
+    tryApply()
+
+    return () => {
+      timers.forEach(clearTimeout)
+    }
+  }, [isLoaded, applyRendererQuality])
 
   // ── GSAP scroll animations ──────────────────────────────────────────────
   useEffect(() => {
@@ -274,14 +314,17 @@ export const SplineBackground = memo(function SplineBackground({
         animation: gsap.to(container, { opacity: 0, ease: 'power2.out' }),
         onLeave: () => {
           container.style.visibility = 'hidden'
-          // Stop the WebGL render loop while the scene is invisible so it
-          // doesn't cost frames during the Projects section.
+          // Freeze (not disable) the scene once it's off-viewport: halting the
+          // WebGL render loop keeps the last frame intact and the app mounted,
+          // so scrolling back up resumes instantly, while the rest of the site
+          // gets the GPU entirely to itself.
           splineInstanceRef.current?.stop?.()
         },
         // Let the scrubbed fade drive opacity on the way back up; setting it
         // to 1 here caused a flash before the scrub restored the real value.
         onEnterBack: () => {
           container.style.visibility = 'visible'
+          // Un-freeze the exact same, still-mounted instance.
           splineInstanceRef.current?.play?.()
         },
       }),
@@ -295,6 +338,22 @@ export const SplineBackground = memo(function SplineBackground({
       triggersRef.current = []
     }
   }, [isLoaded, isLoading, tier])
+
+  // ── Pause the render loop while the tab is hidden ──────────────────────
+  useEffect(() => {
+    if (!isLoaded) return
+    const onVisibility = () => {
+      const app = splineInstanceRef.current
+      if (!app) return
+      if (document.hidden) {
+        app.stop?.()
+      } else if (containerRef.current && containerRef.current.style.visibility !== 'hidden') {
+        app.play?.()
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => document.removeEventListener('visibilitychange', onVisibility)
+  }, [isLoaded])
 
   if (isLoading) return (
     <div
