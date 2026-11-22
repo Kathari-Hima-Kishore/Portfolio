@@ -142,32 +142,6 @@ export const ContactSection = memo(function ContactSection({ isMobile = false }:
                                 }}
                             />
 
-                            {/* Glowing corner accents — hidden on mobile */}
-                            {!useMobileLayout && (
-                                <>
-                                    <motion.div 
-                                        className="absolute top-4 left-4 w-3 h-3 bg-accent rounded-sm"
-                                        animate={{ opacity: [0.3, 0.7, 0.3] }}
-                                        transition={{ duration: 2, repeat: Infinity }}
-                                    />
-                                    <motion.div 
-                                        className="absolute top-4 right-4 w-3 h-3 bg-accent rounded-sm"
-                                        animate={{ opacity: [0.7, 0.3, 0.7] }}
-                                        transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                                    />
-                                    <motion.div 
-                                        className="absolute bottom-4 left-4 w-3 h-3 bg-accent rounded-sm"
-                                        animate={{ opacity: [0.5, 0.8, 0.5] }}
-                                        transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-                                    />
-                                    <motion.div 
-                                        className="absolute bottom-4 right-4 w-3 h-3 bg-accent rounded-sm"
-                                        animate={{ opacity: [0.8, 0.4, 0.8] }}
-                                        transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
-                                    />
-                                </>
-                            )}
-
                             <form onSubmit={onSubmit} className="space-y-6">
                                 {/* Name & Email Fields */}
                                 <div className="grid gap-6 md:grid-cols-2">

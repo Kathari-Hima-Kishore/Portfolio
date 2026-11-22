@@ -1,6 +1,7 @@
 'use client'
 
 import SmoothScroll from '@/components/SmoothScroll'
+import { SectionSnap } from '@/components/SectionSnap'
 import { Loader } from '@/components/ui/Loader'
 import { PhaseIndicator } from '@/components/ui/PhaseIndicator'
 import { ProgressBar } from '@/components/ui/ProgressBar'
@@ -122,16 +123,18 @@ export default function Home() {
   // Determine if we should use mobile layout - both mobile AND tablet always use simplified view
   const isMobileLayout = isMobile || isTablet
 
-  // Show Spline during Hero (phase 1) and Skills (phase 2). It stays mounted
-  // through Projects (phase 3) so scrolling back up to Skills doesn't have to
-  // reload the whole 3D scene (which took ~1s and popped in at full size).
-  // The scene is fully faded out and its render loop is stopped while hidden.
-  const showSpline = activePhase <= 3 && !isMobileLayout
+  // The 3D scene stays mounted for the entire desktop session instead of
+  // being torn down once it scrolls away. Unmounting/disabling it caused a
+  // ~1s reload + full-size pop when scrolling back up. Instead, SplineBackground
+  // freezes it in place (render loop halted, last frame intact) while it is
+  // off-viewport, so the rest of the page keeps the GPU to itself and scrolling
+  // back up resumes the exact same instance instantly.
+  const showSpline = !isMobileLayout
 
   // On desktop, show "Loading 3D Experience" overlay until Spline actually loads
-  // Only show during initial load or when Spline is active (phases 1-2) to avoid
-  // getting stuck if the user scrolls past before Spline finishes
-  const showPlaceholder = !isMobileLayout && !splineLoaded && (isLoading || showSpline)
+  // Only show during initial load or while the scene is still in play (phases 1-3)
+  // to avoid getting stuck if the user scrolls past before Spline finishes.
+  const showPlaceholder = !isMobileLayout && !splineLoaded && (isLoading || activePhase <= 3)
 
   // Only render Spline on desktop (> 1024px)
   return (
@@ -163,6 +166,10 @@ export default function Home() {
       ))}
 
       <StarryBackground />
+
+      {/* PC-only deck snapping: a small wheel nudge glides to the next/previous
+          section start, skipping the dead gaps between sections. */}
+      <SectionSnap enabled={isReady && !isMobileLayout && !isLoading} />
 
       <main className={`relative z-10 canvas-overlay-mode flex flex-col pb-48 ${isMobileLayout ? 'gap-16 px-4' : 'gap-48 md:gap-72'}`}>
         <HeroSection isMobile={isMobileLayout} />
